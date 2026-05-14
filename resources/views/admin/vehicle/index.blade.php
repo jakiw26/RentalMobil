@@ -70,6 +70,7 @@
         </div>
     </nav>
 
+
     <div class="container py-5">
         <div class="card border-0 shadow-lg rounded-4">
             <div class="card-header bg-dark text-white rounded-top-4 border-0 py-3">
@@ -80,6 +81,15 @@
                 </div>
             </div>
             <div class="card-body p-4">
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul class="mb-0">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
                 <div class="table-responsive">
                     <table class="table table-bordered table-hover align-middle text-center">
                         <table class="table table-striped">
@@ -160,15 +170,15 @@
                             <input type="teks" name="model" class="form-control" placeholder="Masukkan model"
                                 required>
                         </div>
-                        
+
                         <div class="mb-3">
                             <label class="form-label fw-semibold">
                                 Plate Number
                             </label>
-                            <input type="text" name="plate_number" class="form-control" placeholder="Masukan plate number"
-                            required>
+                            <input type="text" name="plate_number" class="form-control"
+                                placeholder="Masukan plate number" required>
                         </div>
-                        
+
                         <div class="mb-3">
                             <label class="form-label fw-semibold">
                                 Year
@@ -189,8 +199,8 @@
                             <label class="form-label fw-semibold">
                                 Price Per Day
                             </label>
-                            <input type="text" name="price_per_day" class="form-control" placeholder="Masukan tahun"
-                                required>
+                            <input type="text" name="price_per_day" class="form-control"
+                                placeholder="Masukan tahun" required>
                         </div>
 
                         <div class="text-end">
@@ -239,7 +249,7 @@
                                 <input type="text" name="model" class="form-control"
                                     value="{{ $vehicle->model }}" required>
                             </div>
-                            
+
                             <div class="mb-3">
                                 <label class="form-label fw-semibold">
                                     Plate Number

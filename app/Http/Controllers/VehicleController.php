@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class VehicleController extends Controller
 {
-    
+
     public function index()
     {
         $vehicles = Vehicle::all();
@@ -17,6 +17,16 @@ class VehicleController extends Controller
 
     public function store(Request $request)
     {
+
+        $request->validate([
+            'brand' => 'required',
+            'model' => 'required',
+            'plate_number' => 'required',
+            'year' => 'required|digits:4|integer',
+            'status' => 'required',
+            'price_per_day' => 'required|numeric',
+        ]);
+
         Vehicle::create([
             'brand' => $request->brand,
             'model' => $request->model,
@@ -31,8 +41,18 @@ class VehicleController extends Controller
 
     public function update(Request $request, $id)
     {
+
+        $request->validate([
+            'brand' => 'required',
+            'model' => 'required',
+            'plate_number' => 'required',
+            'year' => 'required|digits:4|integer',
+            'status' => 'required',
+            'price_per_day' => 'required|numeric',
+        ]);
+
         $vehicle = Vehicle::find($id);
-        
+
         $vehicle->update([
             'brand' => $request->brand,
             'model' => $request->model,
@@ -51,5 +71,4 @@ class VehicleController extends Controller
         $vehicle->delete();
         return redirect('/admin/vehicle');
     }
-
 }
