@@ -8,6 +8,9 @@ use App\Http\Controllers\VehicleTypeController;
 use App\Http\Controllers\ReturnsController;
 use App\Http\Controllers\RentalsController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\DriverController;
+use App\Http\Controllers\MaintenanceController;
+
 
 use Illuminate\Support\Facades\Route;
 
@@ -19,44 +22,56 @@ use Illuminate\Support\Facades\Route;
 Route::get('/',[LandingpageController::class, 'index']);
 Route::get('/admin',[LandingpageController::class, 'admin']);
 
-//users
+//admin/users
 Route::get('/admin/users', [UserController::class, 'index']);
 Route::post('/user/store', [UserController::class, 'store']);
 Route::put('/user/update/{id}', [UserController::class, 'update']);
 Route::delete('/user/delete/{id}', [UserController::class, 'destroy']);
 
-//customers
+//admin customers
 Route::get('/admin/customers', [CustomerController::class, 'index']);
-Route::post('/customer/store', [CustomerController::class, 'store']);
-Route::put('/customer/update/{id}', [CustomerController::class, 'update']);
-Route::delete('/customer/delete/{id}', [CustomerController::class, 'destroy']);
+Route::post('/admin/store', [CustomerController::class, 'store']);
+Route::put('/admin/update/{id}', [CustomerController::class, 'update']);
+Route::delete('/admin/delete/{id}', [CustomerController::class, 'destroy']);
 
-//vehicle
+//admin vehicle
 Route::get('/admin/vehicle', [VehicleController::class, 'index']);
-Route::post('/vehicle/store', [VehicleController::class, 'store']);
-Route::put('/vehicle/update/{id}', [VehicleController::class, 'update']);
-Route::delete('/vehicle/delete/{id}', [VehicleController::class, 'destroy']);
+Route::post('/admin/vehicle/store', [VehicleController::class, 'store']);
+Route::put('/admin/vehicle/update/{id}', [VehicleController::class, 'update']);
+Route::delete('/admin/vehicle/delete/{id}', [VehicleController::class, 'destroy']);
 
-//vehicle type
+//admin vehicle type
 Route::get('/admin/vehicle_types', [VehicleTypeController::class, 'index']);
-Route::post('/vehicle_type/store', [VehicleTypeController::class, 'store']);
-Route::put('/vehicle_type/update/{id}', [VehicleTypeController::class, 'update']);
-Route::delete('/vehicle_type/delete/{id}', [VehicleTypeController::class, 'destroy']);
+Route::post('/admin/vehicle_type/store', [VehicleTypeController::class, 'store']);
+Route::put('/admin/vehicle_type/update/{id}', [VehicleTypeController::class, 'update']);
+Route::delete('/admin/vehicle_type/delete/{id}', [VehicleTypeController::class, 'destroy']);
 
-//rentals
+//admin rentals
 Route::get('/admin/rentals', [RentalsController::class, 'index']);
-Route::post('/rentals/store', [RentalsController::class, 'store']);
-Route::put('/rentals/update/{id}', [RentalsController::class, 'update']);
-Route::delete('/rentals/delete/{id}', [RentalsController::class, 'destroy']);
+Route::post('/admin/rentals/store', [RentalsController::class, 'store']);
+Route::put('/admin/rentals/update/{id}', [RentalsController::class, 'update']);
+Route::delete('/admin/rentals/delete/{id}', [RentalsController::class, 'destroy']);
 
-//return
+//damin return
 Route::get('/admin/returns', [ReturnsController::class, 'index']);
-Route::post('/returns/store', [ReturnsController::class, 'store']);
-Route::put('/returns/update/{id}', [ReturnsController::class, 'update']);
-Route::delete('/returns/delete/{id}', [ReturnsController::class, 'destroy']);
+Route::post('/admin/returns/store', [ReturnsController::class, 'store']);
+Route::put('/admin/returns/update/{id}', [ReturnsController::class, 'update']);
+Route::delete('/admin/returns/delete/{id}', [ReturnsController::class, 'destroy']);
 
-//payment
+//admin payment
 Route::get('/admin/payments', [PaymentController::class, 'index']);
-Route::post('/payment/store', [PaymentController::class, 'store']);
-Route::put('/payment/update/{id}', [PaymentController::class, 'update']);
-Route::delete('/payment/delete/{id}', [PaymentController::class, 'destroy']);
+Route::post('/admin/payment/store', [PaymentController::class, 'store']);
+Route::put('/admin/payment/update/{id}', [PaymentController::class, 'update']);
+Route::delete('/admin/payment/delete/{id}', [PaymentController::class, 'destroy']);
+
+//admin Driver
+Route::get('/admin/drivers', [DriverController::class, 'index']);
+Route::post('/admin/drivers/store', [DriverController::class, 'store']);
+Route::put('/admin/drivers/update/{id}', [DriverController::class, 'update']);
+Route::delete('/admin/drivers/delete/{id}', [DriverController::class, 'destroy']);
+
+//admin Maintenance
+Route::get('/admin/maintenance', [MaintenanceController::class, 'index']);
+Route::post('/admin/maintenance/store', [MaintenanceController::class, 'store']);
+Route::put('/admin/maintenance/update/{id}', [MaintenanceController::class, 'update']);
+Route::delete('/admin/maintenance/delete/{id}', [MaintenanceController::class, 'destroy']);

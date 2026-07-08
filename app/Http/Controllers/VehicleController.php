@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Vehicle;
+use App\Models\Vehicle_type;
 
 use Illuminate\Http\Request;
 
@@ -12,13 +13,15 @@ class VehicleController extends Controller
     public function index()
     {
         $vehicles = Vehicle::all();
-        return view('admin.vehicle.index', compact('vehicles'));
+         $vehicleTypes = Vehicle_type::all();
+        return view('admin.vehicle.index', compact('vehicles', 'vehicleTypes'));
     }
 
     public function store(Request $request)
     {
 
         $request->validate([
+            'vehicle_type_id' => 'required',
             'brand' => 'required',
             'model' => 'required',
             'plate_number' => 'required',
@@ -28,6 +31,7 @@ class VehicleController extends Controller
         ]);
 
         Vehicle::create([
+            'vehicle_type_id' => $request->vehicle_type_id,
             'brand' => $request->brand,
             'model' => $request->model,
             'plate_number' => $request->plate_number,
@@ -43,6 +47,7 @@ class VehicleController extends Controller
     {
 
         $request->validate([
+            'vehicle_type_id' => 'required',
             'brand' => 'required',
             'model' => 'required',
             'plate_number' => 'required',
@@ -54,6 +59,7 @@ class VehicleController extends Controller
         $vehicle = Vehicle::find($id);
 
         $vehicle->update([
+            'vehicle_type_id' => $request->vehicle_type_id,
             'brand' => $request->brand,
             'model' => $request->model,
             'plate_number' => $request->plate_number,

@@ -13,10 +13,21 @@ return new class extends Migration
     {
         Schema::create('return', function (Blueprint $table) {
             $table->id();
-            $table->integer('rental_id');
+            $table->foreignId('rental_id')
+                ->references('id')
+                ->on('rentals')
+                ->cascadeOnDelete();
+
+
             $table->date('return_date');
-            $table->integer('late_days');
-            $table->integer('fine');
+
+
+            $table->integer('late_days')
+                ->default(0);
+
+
+            $table->integer('fine')
+                ->default(0);
             $table->timestamps();
         });
     }

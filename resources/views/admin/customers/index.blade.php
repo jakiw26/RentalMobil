@@ -30,20 +30,25 @@
                 <ul class="navbar-nav mb-2 mb-lg-0 gap-3">
 
                     <li class="nav-item">
+                        <a class="nav-link" href="/admin">Dashboard</a>
+                    </li>
+
+                    <li class="nav-item">
                         <a class="nav-link" href="/admin/users">Users</a>
                     </li>
 
                     <li class="nav-item">
                         <a class="nav-link" href="/admin/customers">Customers</a>
                     </li>
+                    
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin/vehicle_types">Vehicle Types</a>
+                    </li>
 
                     <li class="nav-item">
                         <a class="nav-link" href="/admin/vehicle">Vehicles</a>
                     </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="/admin/vehicle_types">Vehicle Types</a>
-                    </li>
 
                     <li class="nav-item">
                         <a class="nav-link" href="/admin/rentals">Rentals</a>
@@ -74,9 +79,7 @@
         <div class="card border-0 shadow-lg rounded-4">
             <div class="card-header bg-dark text-white rounded-top-4 border-0 py-3">
                 <div class="d-flex justify-content-between align-items-center">
-                    <h3 class="mb-0 fw-bold"> Data Customers </h3> <button
-                        class="btn btn-light text-primary fw-semibold rounded-pill px-4" data-bs-toggle="modal"
-                        data-bs-target="#tambahBorrowingModal"> + Tambah Data </button>
+                    <h3 class="mb-0 fw-bold"> Data Customers </h3>
                 </div>
             </div>
             <div class="card-body p-4">
@@ -85,29 +88,30 @@
                         <table class="table table-striped">
                             <tr>
                                 <th>No</th>
+                                <th>User Id</th>
                                 <th>Nama</th>
                                 <th>Phone</th>
                                 <th>Address</th>
                                 <th>Identity Number</th>
-                                <th>Action</th>
                             </tr>
                             </thead>
                             <tbody>
                                 @foreach ($customers as $cust)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $cust->user_id }}</td>
                                         <td>{{ $cust->name }}</td>
                                         <td>{{ $cust->phone }}</td>
                                         <td>{{ $cust->address }}</td>
                                         <td>{{ $cust->identity_number }}</td>
 
-                                        <td>
+                                        {{-- <td>
                                             <button class="btn btn-warning btn-sm" data-bs-toggle="modal"
                                                 data-bs-target="#editModal{{ $cust->id }}">
                                                 Edit
                                             </button>
 
-                                            <form action="/customer/delete/{{ $cust->id }}" method="POST"
+                                            <form action="/admin/delete/{{ $cust->id }}" method="POST"
                                                 class="d-inline">
 
                                                 @csrf
@@ -117,7 +121,7 @@
                                                     Hapus
                                                 </button>
                                             </form>
-                                        </td>
+                                        </td> --}}
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -139,8 +143,15 @@
                 </div>
 
                 <div class="modal-body p-4">
-                    <form action="/customer/store" method="POST">
+                    <form action="/admin/store" method="POST">
                         @csrf
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">
+                                User_Id
+                            </label>
+                            <input type="text" name="user_id" class="form-control" placeholder="Masukkan Nama"
+                                required>
+                        </div>
                         <div class="mb-3">
                             <label class="form-label fw-semibold">
                                 Nama
@@ -200,10 +211,17 @@
                     </div>
 
                     <div class="modal-body p-4">
-                        <form action="/customer/update/{{ $cust->id }}" method="POST">
+                        <form action="/admin/update/{{ $cust->id }}" method="POST">
                             @csrf
                             @method('PUT')
 
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold">
+                                    User Id
+                                </label>
+                                <input type="text" name="user_id" class="form-control"
+                                    value="{{ $cust->user_id }}" required>
+                            </div>
                             <div class="mb-3">
                                 <label class="form-label fw-semibold">
                                     Nama

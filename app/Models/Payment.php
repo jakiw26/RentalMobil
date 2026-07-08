@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Models;
+use App\Models\Rentals;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -14,4 +15,12 @@ class Payment extends Model
         'payment_date',
         'status'
     ];
+
+    public function rental()
+    {
+        return $this->belongsTo(
+            Rentals::class
+        );
+    }
+
 }

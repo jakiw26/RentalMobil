@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Rentals</title>
+    <title>Customers</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
@@ -40,7 +40,7 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/admin/customers">Customers</a>
                     </li>
-                    
+
                     <li class="nav-item">
                         <a class="nav-link" href="/admin/vehicle_types">Vehicle Types</a>
                     </li>
@@ -79,7 +79,9 @@
         <div class="card border-0 shadow-lg rounded-4">
             <div class="card-header bg-dark text-white rounded-top-4 border-0 py-3">
                 <div class="d-flex justify-content-between align-items-center">
-                    <h3 class="mb-0 fw-bold"> Data Rentals </h3>
+                    <h3 class="mb-0 fw-bold"> Data Customers </h3> <button
+                        class="btn btn-light text-primary fw-semibold rounded-pill px-4" data-bs-toggle="modal"
+                        data-bs-target="#tambahDriverModal"> + Tambah Data </button>
                 </div>
             </div>
             <div class="card-body p-4">
@@ -88,35 +90,28 @@
                         <table class="table table-striped">
                             <tr>
                                 <th>No</th>
-                                <th>Customer ID</th>
-                                <th>Vehicle ID</th>
-                                <th>Driver ID</th>
-                                <th>Rent Date</th>
-                                <th>Return Date</th>
-                                <th>Total Price</th>
+                                <th>Nama</th>
+                                <th>Phone</th>
+                                <th>License Number</th>
                                 <th>Status</th>
                                 <th>Action</th>
                             </tr>
                             </thead>
                             <tbody>
-                                @foreach ($rentals as $rental)
+                                @foreach ($drivers as $driv)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $rental->customer_id }}</td>
-                                        <td>{{ $rental->vehicle_id }}</td>
-                                        <td>{{ $rental->driver_id }}</td>
-                                        <td>{{ $rental->rent_date }}</td>
-                                        <td>{{ $rental->return_date }}</td>
-                                        <td>{{ $rental->total_price }}</td>
-                                        <td>{{ $rental->status }}</td>
-
+                                        <td>{{ $driv->name }}</td>
+                                        <td>{{ $driv->phone }}</td>
+                                        <td>{{ $driv->license_number }}</td>
+                                        <td>{{ $driv->status }}</td>
                                         <td>
                                             <button class="btn btn-warning btn-sm" data-bs-toggle="modal"
-                                                data-bs-target="#editModal{{ $rental->id }}">
+                                                data-bs-target="#editDriverModal{{ $driv->id }}">
                                                 Edit
                                             </button>
 
-                                            {{-- <form action="/rentals/delete/{{ $rental->id }}" method="POST"
+                                            <form action="/admin/drivers/delete/{{ $driv->id }}" method="POST"
                                                 class="d-inline">
 
                                                 @csrf
@@ -125,7 +120,7 @@
                                                 <button type="submit" class="btn btn-danger btn-sm">
                                                     Hapus
                                                 </button>
-                                            </form> --}}
+                                            </form>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -137,147 +132,216 @@
     </div>
 
     <!-- Modal Tambah Data -->
-    <div class="modal fade" id="tambahBorrowingModal" tabindex="-1">
+    <div class="modal fade" id="tambahDriverModal" tabindex="-1">
         <div class="modal-dialog modal-lg modal-dialog-centered">
             <div class="modal-content border-0 rounded-4 shadow">
+
                 <div class="modal-header bg-dark text-white">
                     <h5 class="modal-title fw-bold">
-                        Add Rentals
+                        Add Driver
                     </h5>
+
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                 </div>
 
+
                 <div class="modal-body p-4">
-                    <form action="/rentals/store" method="POST">
+
+                    <form action="/admin/drivers/store" method="POST">
                         @csrf
+
+
                         <div class="mb-3">
                             <label class="form-label fw-semibold">
-                                Customer ID
+                                Name
                             </label>
-                            <input type="text" name="customer_id" class="form-control" placeholder="Masukkan Nama"
+
+                            <input type="text" name="name" class="form-control" placeholder="Masukkan Nama Driver"
                                 required>
                         </div>
 
-                        <div class="mb-3">
-                            <label class="form-label fw-semibold">
-                                Vehicle ID
-                            </label>
-                            <input type="teks" name="vehicle_id" class="form-control" placeholder="Masukkan model"
-                                required>
-                        </div>
 
                         <div class="mb-3">
                             <label class="form-label fw-semibold">
-                                Rent Date
+                                Phone
                             </label>
-                            <input type="date" name="rent_date" class="form-control"
-                                placeholder="Masukan plate number" required>
+
+                            <input type="number" name="phone" class="form-control"
+                                placeholder="Masukkan Nomor Telepon" required>
                         </div>
+
 
                         <div class="mb-3">
                             <label class="form-label fw-semibold">
-                                Return Date
+                                License Number
                             </label>
-                            <input type="date" name="return_date" class="form-control" placeholder="Masukan tahun"
-                                required>
+
+                            <input type="text" name="license_number" class="form-control"
+                                placeholder="Masukkan Nomor SIM" required>
                         </div>
 
-                        <div class="mb-3">
-                            <label class="form-label fw-semibold">
-                                Total Price
-                            </label>
-                            <input type="number" name="total_price" class="form-control"
-                                placeholder="Masukan tahun" required>
-                        </div>
 
                         <div class="mb-3">
                             <label class="form-label fw-semibold">
                                 Status
                             </label>
-                            <input type="text" name="status" class="form-control" placeholder="Masukan status"
-                                required>
+
+                            <select name="status" class="form-select" required>
+
+                                <option value="">
+                                    -- Pilih Status --
+                                </option>
+
+                                <option value="available">
+                                    Available
+                                </option>
+
+                                <option value="busy">
+                                    Busy
+                                </option>
+
+                            </select>
                         </div>
 
+
                         <div class="text-end">
+
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                                 Batal
                             </button>
+
+
                             <button type="submit" class="btn btn-primary">
                                 Simpan
                             </button>
+
                         </div>
+
+
                     </form>
+
                 </div>
+
             </div>
         </div>
     </div>
 
-    @foreach ($rentals as $rental)
-        <div class="modal fade" id="editModal{{ $rental->id }}" tabindex="-1">
-            <div class="modal-dialog modal-lg modal-dialog-centered">
-                <div class="modal-content border-0 rounded-4 shadow">
-                    <div class="modal-header bg-dark text-white">
-                        <h5 class="modal-title fw-bold">
-                            Edit Rentals
-                        </h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal">
-                        </button>
-                    </div>
 
-                    <div class="modal-body p-4">
-                        <form action="/admin/rentals/update/{{ $rental->id }}" method="POST">
-                            @csrf
-                            @method('PUT')
+    <div class="modal fade" id="editDriverModal{{ $driv->id }}" tabindex="-1">
 
-                            <div class="mb-3">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
 
-                                <label class="form-label fw-semibold">
-                                    Status Rental
-                                </label>
+            <div class="modal-content border-0 rounded-4 shadow">
 
 
-                                <select name="status" class="form-select" required>
+                <div class="modal-header bg-dark text-white">
 
+                    <h5 class="modal-title fw-bold">
+                        Edit Driver
+                    </h5>
 
-                                    <option value="pending" {{ $rental->status == 'pending' ? 'selected' : '' }}>
-                                        Pending
-                                    </option>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal">
+                    </button>
 
-
-                                    <option value="approved" {{ $rental->status == 'approved' ? 'selected' : '' }}>
-                                        Approved
-                                    </option>
-
-
-                                    <option value="rejected" {{ $rental->status == 'rejected' ? 'selected' : '' }}>
-                                        Rejected
-                                    </option>
-
-
-                                    <option value="finished" {{ $rental->status == 'finished' ? 'selected' : '' }}>
-                                        Finished
-                                    </option>
-
-
-                                </select>
-
-                            </div>
-
-                            <div class="text-end">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                                    Batal
-                                </button>
-                                <button type="submit" class="btn btn-warning">
-                                    Update
-                                </button>
-                            </div>
-
-                        </form>
-                    </div>
                 </div>
+
+
+                <div class="modal-body p-4">
+
+
+                    <form action="/admin/drivers/update/{{ $driv->id }}" method="POST">
+
+                        @csrf
+                        @method('PUT')
+
+
+                        <div class="mb-3">
+
+                            <label class="form-label fw-semibold">
+                                Name
+                            </label>
+
+                            <input type="text" name="name" class="form-control" value="{{ $driv->name }}"
+                                required>
+
+                        </div>
+
+
+                        <div class="mb-3">
+
+                            <label class="form-label fw-semibold">
+                                Phone
+                            </label>
+
+                            <input type="number" name="phone" class="form-control" value="{{ $driv->phone }}"
+                                required>
+
+                        </div>
+
+
+                        <div class="mb-3">
+
+                            <label class="form-label fw-semibold">
+                                License Number
+                            </label>
+
+                            <input type="text" name="license_number" class="form-control"
+                                value="{{ $driv->license_number }}" required>
+
+                        </div>
+
+
+                        <div class="mb-3">
+
+                            <label class="form-label fw-semibold">
+                                Status
+                            </label>
+
+
+                            <select name="status" class="form-select" required>
+
+
+                                <option value="available" {{ $driv->status == 'available' ? 'selected' : '' }}>
+                                    Available
+                                </option>
+
+
+                                <option value="busy" {{ $driv->status == 'busy' ? 'selected' : '' }}>
+                                    Busy
+                                </option>
+
+
+                            </select>
+
+                        </div>
+
+
+
+                        <div class="text-end">
+
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                Batal
+                            </button>
+
+
+                            <button type="submit" class="btn btn-warning">
+                                Update
+                            </button>
+
+
+                        </div>
+
+
+                    </form>
+
+
+                </div>
+
             </div>
+
         </div>
-    @endforeach
+
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-FKyoEForCGlyvwx9Hj09cYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>

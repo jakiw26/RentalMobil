@@ -13,11 +13,24 @@ return new class extends Migration
     {
         Schema::create('maintenance', function (Blueprint $table) {
             $table->id();
-            $table->integer('vehicle_id');
+            $table->foreignId('vehicle_id')
+                ->references('id')
+                ->on('vehicle')
+                ->cascadeOnDelete();
+
+
             $table->text('description');
+
             $table->integer('cost');
+
             $table->date('service_date');
-            $table->string('status');
+
+
+            $table->enum('status', [
+                'process',
+                'completed'
+            ])
+                ->default('process');
             $table->timestamps();
         });
     }

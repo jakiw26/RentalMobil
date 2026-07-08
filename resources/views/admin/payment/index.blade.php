@@ -30,20 +30,25 @@
                 <ul class="navbar-nav mb-2 mb-lg-0 gap-3">
 
                     <li class="nav-item">
+                        <a class="nav-link" href="/admin">Dashboard</a>
+                    </li>
+
+                    <li class="nav-item">
                         <a class="nav-link" href="/admin/users">Users</a>
                     </li>
 
                     <li class="nav-item">
                         <a class="nav-link" href="/admin/customers">Customers</a>
                     </li>
+                    
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin/vehicle_types">Vehicle Types</a>
+                    </li>
 
                     <li class="nav-item">
                         <a class="nav-link" href="/admin/vehicle">Vehicles</a>
                     </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="/admin/vehicle_types">Vehicle Types</a>
-                    </li>
 
                     <li class="nav-item">
                         <a class="nav-link" href="/admin/rentals">Rentals</a>
@@ -108,17 +113,6 @@
                                                 data-bs-target="#editModal{{ $payment->id }}">
                                                 Edit
                                             </button>
-
-                                            <form action="/payment/delete/{{ $payment->id }}" method="POST"
-                                                class="d-inline">
-
-                                                @csrf
-                                                @method('DELETE')
-
-                                                <button type="submit" class="btn btn-danger btn-sm">
-                                                    Hapus
-                                                </button>
-                                            </form>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -158,15 +152,15 @@
                             <input type="number" name="amount" class="form-control" placeholder="Masukkan Phone"
                                 required>
                         </div>
-                        
+
                         <div class="mb-3">
                             <label class="form-label fw-semibold">
                                 Payment Method
                             </label>
                             <input type="text" name="payment_method" class="form-control" placeholder="Masukan Role"
-                            required>
+                                required>
                         </div>
-                        
+
                         <div class="mb-3">
                             <label class="form-label fw-semibold">
                                 Payment Date
@@ -210,48 +204,31 @@
                     </div>
 
                     <div class="modal-body p-4">
-                        <form action="/payment/update/{{ $payment->id }}" method="POST">
+                        <form action="/admin/payment/update/{{ $payment->id }}" method="POST">
                             @csrf
                             @method('PUT')
 
                             <div class="mb-3">
                                 <label class="form-label fw-semibold">
-                                    Rental Id
-                                </label>
-                                <input type="text" name="rental_id" class="form-control"
-                                    value="{{ $payment->rental_id }}" required>
-                            </div>
-
-                            <div class="mb-3">
-                                <label class="form-label fw-semibold">
-                                    Amount
-                                </label>
-                                <input type="number" name="amount" class="form-control"
-                                    value="{{ $payment->amount }}" required>
-                            </div>
-                            
-                            <div class="mb-3">
-                                <label class="form-label fw-semibold">
-                                    Payment Method
-                                </label>
-                                <input type="text" name="payment_method" class="form-control"
-                                    value="{{ $payment->payment_method }}" required>
-                            </div>
-
-                            <div class="mb-3">
-                                <label class="form-label fw-semibold">
-                                    Payment Date
-                                </label>
-                                <input type="date" name="payment_date" class="form-control"
-                                    value="{{ $payment->payment_date }}" required>
-                            </div>
-
-                            <div class="mb-3">
-                                <label class="form-label fw-semibold">
                                     Status
                                 </label>
-                                <input type="teks" name="status" class="form-control"
-                                    value="{{ $payment->status }}" required>
+
+                                <select name="status" class="form-select" required>
+
+                                    <option value="pending" {{ $payment->status == 'pending' ? 'selected' : '' }}>
+                                        Pending
+                                    </option>
+
+                                    <option value="paid" {{ $payment->status == 'paid' ? 'selected' : '' }}>
+                                        Paid
+                                    </option>
+
+                                    <option value="failed" {{ $payment->status == 'failed' ? 'selected' : '' }}>
+                                        Failed
+                                    </option>
+
+                                </select>
+
                             </div>
 
                             <div class="text-end">

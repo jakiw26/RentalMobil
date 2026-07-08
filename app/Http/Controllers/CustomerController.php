@@ -17,6 +17,7 @@ class CustomerController extends Controller
     public function store(Request $request)
     {
         Customer::create([
+            'user_id' => $request->user_id,
             'name' => $request->name,
             'phone' => $request->phone,
             'address' => $request->address,
@@ -31,6 +32,7 @@ class CustomerController extends Controller
         $customer = Customer::find($id);
         
         $customer->update([
+            'user_id' => $request->user_id,
             'name' => $request->name,
             'phone' => $request->phone,
             'address' => $request->address,

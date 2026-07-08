@@ -30,6 +30,10 @@
                 <ul class="navbar-nav mb-2 mb-lg-0 gap-3">
 
                     <li class="nav-item">
+                        <a class="nav-link" href="/admin">Dashboard</a>
+                    </li>
+
+                    <li class="nav-item">
                         <a class="nav-link" href="/admin/users">Users</a>
                     </li>
 
@@ -38,12 +42,13 @@
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="/admin/vehicle">Vehicles</a>
+                        <a class="nav-link" href="/admin/vehicle_types">Vehicle Types</a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="/admin/vehicle_types">Vehicle Types</a>
+                        <a class="nav-link" href="/admin/vehicle">Vehicles</a>
                     </li>
+
 
                     <li class="nav-item">
                         <a class="nav-link" href="/admin/rentals">Rentals</a>
@@ -74,7 +79,7 @@
         <div class="card border-0 shadow-lg rounded-4">
             <div class="card-header bg-dark text-white rounded-top-4 border-0 py-3">
                 <div class="d-flex justify-content-between align-items-center">
-                    <h3 class="mb-0 fw-bold"> Data Customers </h3> <button
+                    <h3 class="mb-0 fw-bold"> Data Return </h3> <button
                         class="btn btn-light text-primary fw-semibold rounded-pill px-4" data-bs-toggle="modal"
                         data-bs-target="#tambahBorrowingModal"> + Tambah Data </button>
                 </div>
@@ -107,7 +112,7 @@
                                                 Edit
                                             </button>
 
-                                            <form action="/returns/delete/{{ $return->id }}" method="POST"
+                                            <form action="/admin/returns/delete/{{ $return->id }}" method="POST"
                                                 class="d-inline">
 
                                                 @csrf
@@ -139,14 +144,30 @@
                 </div>
 
                 <div class="modal-body p-4">
-                    <form action="/returns/store" method="POST">
+                    <form action="/admin/returns/store" method="POST">
                         @csrf
                         <div class="mb-3">
                             <label class="form-label fw-semibold">
-                                Rental Id
+                                Rental
                             </label>
-                            <input type="text" name="rental_id" class="form-control" placeholder="Masukkan id"
-                                required>
+
+                            <select name="rental_id" class="form-select" required>
+
+                                <option value="">
+                                    -- Pilih Rental --
+                                </option>
+
+                                @foreach ($rentals as $rental)
+                                    <option value="{{ $rental->id }}">
+                                        Rental #{{ $rental->id }} -
+                                        {{ $rental->customer->name ?? 'Customer' }}
+                                        |
+                                        {{ $rental->vehicle->brand ?? '' }}
+                                        {{ $rental->vehicle->model ?? '' }}
+                                    </option>
+                                @endforeach
+
+                            </select>
                         </div>
 
                         <div class="mb-3">
@@ -156,15 +177,15 @@
                             <input type="date" name="return_date" class="form-control" placeholder="Masukkan date"
                                 required>
                         </div>
-                        
+
                         <div class="mb-3">
                             <label class="form-label fw-semibold">
                                 Late Days
                             </label>
                             <input type="number" name="late_days" class="form-control" placeholder="Masukan days"
-                            required>
+                                required>
                         </div>
-                        
+
                         <div class="mb-3">
                             <label class="form-label fw-semibold">
                                 Fine
@@ -200,16 +221,36 @@
                     </div>
 
                     <div class="modal-body p-4">
-                        <form action="/returns/update/{{ $return->id }}" method="POST">
+                        <form action="/admin/returns/update/{{ $return->id }}" method="POST">
                             @csrf
                             @method('PUT')
 
                             <div class="mb-3">
                                 <label class="form-label fw-semibold">
-                                    Rental Id
+                                    Rental
                                 </label>
-                                <input type="text" name="rental_id" class="form-control"
-                                    value="{{ $return->rental_id }}" required>
+
+                                <select name="rental_id" class="form-select" required>
+
+                                    <option value="">
+                                        -- Pilih Rental --
+                                    </option>
+
+                                    @foreach ($rentals as $rental)
+                                        <option value="{{ $rental->id }}"
+                                            {{ $return->rental_id == $rental->id ? 'selected' : '' }}>
+
+                                            Rental #{{ $rental->id }} -
+                                            {{ $rental->customer->name ?? 'Customer' }}
+                                            |
+                                            {{ $rental->vehicle->brand ?? '' }}
+                                            {{ $rental->vehicle->model ?? '' }}
+
+                                        </option>
+                                    @endforeach
+
+                                </select>
+
                             </div>
 
                             <div class="mb-3">
@@ -219,7 +260,7 @@
                                 <input type="date" name="return_date" class="form-control"
                                     value="{{ $return->return_date }}" required>
                             </div>
-                            
+
                             <div class="mb-3">
                                 <label class="form-label fw-semibold">
                                     Late Days

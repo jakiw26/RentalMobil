@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+use App\Models\Customer;
+
 class Users extends Model
 {
     protected $table = 'users';
@@ -13,4 +15,9 @@ class Users extends Model
         'password',
         'role'
     ];
+
+    public function customer()
+    {
+        return $this->hasOne(Customer::class);
+    }
 }

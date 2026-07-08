@@ -30,20 +30,25 @@
                 <ul class="navbar-nav mb-2 mb-lg-0 gap-3">
 
                     <li class="nav-item">
+                        <a class="nav-link" href="/admin">Dashboard</a>
+                    </li>
+
+                    <li class="nav-item">
                         <a class="nav-link" href="/admin/users">Users</a>
                     </li>
 
                     <li class="nav-item">
                         <a class="nav-link" href="/admin/customers">Customers</a>
                     </li>
+                    
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin/vehicle_types">Vehicle Types</a>
+                    </li>
 
                     <li class="nav-item">
                         <a class="nav-link" href="/admin/vehicle">Vehicles</a>
                     </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="/admin/vehicle_types">Vehicle Types</a>
-                    </li>
 
                     <li class="nav-item">
                         <a class="nav-link" href="/admin/rentals">Rentals</a>
@@ -95,6 +100,7 @@
                         <table class="table table-striped">
                             <tr>
                                 <th>No</th>
+                                <th>Vehicle Type</th>
                                 <th>Brand</th>
                                 <th>Model</th>
                                 <th>Plate Number</th>
@@ -108,6 +114,7 @@
                                 @foreach ($vehicles as $vehicle)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $vehicle->vehicle_type_id }}</td>
                                         <td>{{ $vehicle->brand }}</td>
                                         <td>{{ $vehicle->model }}</td>
                                         <td>{{ $vehicle->plate_number }}</td>
@@ -121,7 +128,7 @@
                                                 Edit
                                             </button>
 
-                                            <form action="/vehicle/delete/{{ $vehicle->id }}" method="POST"
+                                            <form action="/admin/vehicle/delete/{{ $vehicle->id }}" method="POST"
                                                 class="d-inline">
 
                                                 @csrf
@@ -153,8 +160,15 @@
                 </div>
 
                 <div class="modal-body p-4">
-                    <form action="/vehicle/store" method="POST">
+                    <form action="/admin/vehicle/store" method="POST">
                         @csrf
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">
+                                Vehicle Type
+                            </label>
+                            <input type="text" name="vehicle_type_id" class="form-control"
+                                placeholder="Masukkan Nama" required>
+                        </div>
                         <div class="mb-3">
                             <label class="form-label fw-semibold">
                                 Brand
@@ -191,8 +205,26 @@
                             <label class="form-label fw-semibold">
                                 Status
                             </label>
-                            <input type="text" name="status" class="form-control" placeholder="Masukan status"
-                                required>
+
+                            <select name="status" class="form-select" required>
+
+                                <option value="">
+                                    -- Pilih Status --
+                                </option>
+
+                                <option value="available">
+                                    Available
+                                </option>
+
+                                <option value="rented">
+                                    Rented
+                                </option>
+
+                                <option value="maintenance">
+                                    Maintenance
+                                </option>
+
+                            </select>
                         </div>
 
                         <div class="mb-3">
@@ -230,10 +262,27 @@
                     </div>
 
                     <div class="modal-body p-4">
-                        <form action="/vehicle/update/{{ $vehicle->id }}" method="POST">
+                        <form action="/admin/vehicle/update/{{ $vehicle->id }}" method="POST">
                             @csrf
                             @method('PUT')
 
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold">
+                                    Vehicle Type
+                                </label>
+
+                                <select name="vehicle_type_id" class="form-select" required>
+
+                                    @foreach ($vehicleTypes as $type)
+                                        <option value="{{ $type->id }}"
+                                            {{ $vehicle->vehicle_type_id == $type->id ? 'selected' : '' }}>
+                                            {{ $type->name }}
+                                        </option>
+                                    @endforeach
+
+                                </select>
+
+                            </div>
                             <div class="mb-3">
                                 <label class="form-label fw-semibold">
                                     Brand
@@ -267,11 +316,22 @@
                             </div>
 
                             <div class="mb-3">
-                                <label class="form-label fw-semibold">
-                                    Status
-                                </label>
-                                <input type="text" name="status" class="form-control"
-                                    value="{{ $vehicle->status }}" required>
+                                <select name="status" class="form-select">
+
+                                    <option value="available" {{ $vehicle->status == 'available' ? 'selected' : '' }}>
+                                        Available
+                                    </option>
+
+                                    <option value="rented" {{ $vehicle->status == 'rented' ? 'selected' : '' }}>
+                                        Rented
+                                    </option>
+
+                                    <option value="maintenance"
+                                        {{ $vehicle->status == 'maintenance' ? 'selected' : '' }}>
+                                        Maintenance
+                                    </option>
+
+                                </select>
                             </div>
 
                             <div class="mb-3">

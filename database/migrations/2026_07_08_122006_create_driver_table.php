@@ -11,13 +11,21 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('payment', function (Blueprint $table) {
+        Schema::create('driver', function (Blueprint $table) {
             $table->id();
-            $table->integer('rental_id');
-            $table->integer('amount');
-            $table->string('payment_method');
-            $table->date('payment_date');
-            $table->string('status');
+            $table->string('name');
+
+            $table->string('phone');
+
+            $table->string('license_number')
+                ->unique();
+
+
+            $table->enum('status', [
+                'available',
+                'busy'
+            ])
+                ->default('available');
             $table->timestamps();
         });
     }
@@ -27,6 +35,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('payment');
+        Schema::dropIfExists('driver');
     }
 };

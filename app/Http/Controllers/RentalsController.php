@@ -28,16 +28,21 @@ class RentalsController extends Controller
 
     public function update(Request $request, $id)
     {
-        $rental = Rentals::find($id);
-        $rental->update([
-            'customer_id' => $request->customer_id,
-            'vehicle_id' => $request->vehicle_id,
-            'rent_date' => $request->rent_date,
-            'return_date' => $request->return_date,
-            'total_price' => $request->total_price,
-            'status' => $request->status,
+        $request->validate([
+            'status' => 'required|in:pending,approved,rejected,finished'
         ]);
-        return redirect('/admin/rentals');
+
+
+        $rental = Rentals::findOrFail($id);
+
+
+        $rental->update([
+            'status' => $request->status
+        ]);
+
+
+        return redirect('/admin/rentals')
+            ->with('success', 'Status rental berhasil diperbarui');
     }
 
     public function destroy($id)

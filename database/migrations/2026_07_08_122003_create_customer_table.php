@@ -11,9 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('vehicle_type', function (Blueprint $table) {
+        Schema::create('customer', function (Blueprint $table) {
             $table->id();
-            $table->string('name'); 
+            $table->foreignId('user_id')
+                ->references('id')
+                ->on('users')
+                ->cascadeOnDelete();
+
+            $table->string('name');
+            $table->string('phone');
+            $table->text('address');
+            $table->string('identity_number')->unique();
             $table->timestamps();
         });
     }
@@ -23,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('vehicle_type');
+        Schema::dropIfExists('customer');
     }
 };

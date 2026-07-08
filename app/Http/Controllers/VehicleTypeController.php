@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\VehicleType;
+use App\Models\Vehicle_type;
 
 use Illuminate\Http\Request;
 
@@ -10,13 +10,13 @@ class VehicleTypeController extends Controller
 {
     public function index()
     {
-        $vehicle_types = VehicleType::all();
+        $vehicle_types = Vehicle_type::all();
         return view('admin.vehicletype.index', compact('vehicle_types'));
     }
 
     public function store(Request $request)
     {
-        VehicleType::create([
+        Vehicle_type::create([
             'name' => $request->name,
         ]);
         return redirect('/admin/vehicle_types');
@@ -24,7 +24,7 @@ class VehicleTypeController extends Controller
 
     public function update(Request $request, $id)
     {
-        $vehicle_type = VehicleType::find($id);
+        $vehicle_type = Vehicle_type::find($id);
 
         $vehicle_type->update([
             'name' => $request->name,
@@ -35,7 +35,7 @@ class VehicleTypeController extends Controller
 
     public function destroy($id)
     {
-        $vehicle_type = VehicleType::find($id);
+        $vehicle_type = Vehicle_type::find($id);
         $vehicle_type->delete();
         return redirect('/admin/vehicle_types');
     }

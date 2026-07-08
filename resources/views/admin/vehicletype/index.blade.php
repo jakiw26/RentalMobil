@@ -30,20 +30,25 @@
                 <ul class="navbar-nav mb-2 mb-lg-0 gap-3">
 
                     <li class="nav-item">
+                        <a class="nav-link" href="/admin">Dashboard</a>
+                    </li>
+
+                    <li class="nav-item">
                         <a class="nav-link" href="/admin/users">Users</a>
                     </li>
 
                     <li class="nav-item">
                         <a class="nav-link" href="/admin/customers">Customers</a>
                     </li>
+                    
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin/vehicle_types">Vehicle Types</a>
+                    </li>
 
                     <li class="nav-item">
                         <a class="nav-link" href="/admin/vehicle">Vehicles</a>
                     </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="/admin/vehicle_types">Vehicle Types</a>
-                    </li>
 
                     <li class="nav-item">
                         <a class="nav-link" href="/admin/rentals">Rentals</a>
@@ -101,7 +106,7 @@
                                                 Edit
                                             </button>
 
-                                            <form action="/vehicle_type/delete/{{ $type->id }}" method="POST"
+                                            <form action="/admin/vehicle_type/delete/{{ $type->id }}" method="POST"
                                                 class="d-inline">
 
                                                 @csrf
@@ -133,7 +138,7 @@
                 </div>
 
                 <div class="modal-body p-4">
-                    <form action="/vehicle_type/store" method="POST">
+                    <form action="/admin/vehicle_type/store" method="POST">
                         @csrf
                         <div class="mb-3">
                             <label class="form-label fw-semibold">
@@ -170,7 +175,7 @@
                     </div>
 
                     <div class="modal-body p-4">
-                        <form action="/vehicle_type/update/{{ $type->id }}" method="POST">
+                        <form action="/admin/vehicle_type/update/{{ $type->id }}" method="POST">
                             @csrf
                             @method('PUT')
 
