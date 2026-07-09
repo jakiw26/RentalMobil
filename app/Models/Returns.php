@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Models;
+
 use App\Models\Rentals;
 
 use Illuminate\Database\Eloquent\Model;
@@ -17,8 +18,6 @@ class Returns extends Model
 
     public function rental()
     {
-        return $this->belongsTo(
-            Rentals::class
-        );
+        return $this->belongsTo(Rentals::class, 'rental_id');
     }
 }

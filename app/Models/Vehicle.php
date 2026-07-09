@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Models;
+
 use App\Models\Maintenance;
 use App\Models\Rentals;
 use App\Models\VehicleType;
@@ -26,9 +27,7 @@ class Vehicle extends Model
     // kendaraan punya satu tipe
     public function vehicleType()
     {
-        return $this->belongsTo(
-            Vehicle_type::class
-        );
+        return $this->belongsTo(Vehicle_type::class, 'vehicle_type_id');
     }
 
 

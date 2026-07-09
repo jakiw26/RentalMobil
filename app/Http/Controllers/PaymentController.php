@@ -37,9 +37,8 @@ class PaymentController extends Controller
             'amount' => $request->amount,
             'payment_method' => $request->payment_method,
             'payment_date' => $request->payment_date,
-            'status' => $request->status
         ]);
-        return redirect('/admin/payments');
+        return redirect('/customer/payments');
     }
 
     public function update(Request $request, $id)
@@ -55,6 +54,55 @@ class PaymentController extends Controller
     {
         $payment = Payment::find($id);
         $payment->delete();
-        return redirect('/admin/payments');
+        return redirect('/customer/payments');
+    }
+
+    public function customer()
+    {
+        $payments = Payment::with([
+            'rental.customer',
+            'rental.vehicle'
+        ])->get();
+
+
+        $rentals = Rentals::with([
+            'customer',
+            'vehicle'
+        ])->get();
+
+
+        return view('customer.payment.index', compact(
+            'payments',
+            'rentals'
+        ));
+    }
+
+    public function updatecust(Request $request, $id)
+    {
+        $request->validate([
+            'rental_id' => 'required',
+            'amount' => 'required|numeric',
+            'payment_method' => 'required',
+            'status' => 'required',
+            'proof' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+        ]);
+
+
+        $payment = Payment::findOrFail($id);
+
+
+        $data = [
+            'rental_id' => $request->rental_id,
+            'amount' => $request->amount,
+            'payment_method' => $request->payment_method,
+            'status' => $request->status,
+        ];
+
+
+        $payment->update($data);
+
+
+        return redirect('/customer/payments')
+            ->with('success', 'Payment berhasil diperbarui!');
     }
 }

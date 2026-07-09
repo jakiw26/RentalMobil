@@ -78,4 +78,10 @@ class DriverController extends Controller
         $driver->delete();
         return redirect('/admin/drivers');
     }
+
+    public function customer()
+    {
+        $drivers = Driver::all();
+        return view('customer.drivers.index', compact('drivers'));
+    }
 }

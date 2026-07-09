@@ -87,4 +87,16 @@ class MaintenanceController extends Controller
         $maintenance->delete();
         return redirect('/admin/maintenance');
     }
+
+    public function customer()
+    {
+        $maintenances = Maintenance::all();
+
+        $vehicles = Vehicle::all();
+
+        return view('customer.maintenance.index', compact(
+            'maintenances',
+            'vehicles'
+        ));
+    }
 }

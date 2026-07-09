@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Payment</title>
+    <title>Customers</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
@@ -31,61 +31,18 @@
                 <ul class="navbar-nav mb-2 mb-lg-0 gap-3">
 
                     <li class="nav-item">
-                        <a class="nav-link" href="/admin">
+                        <a class="nav-link" href="/customer">
                             <i class="bi bi-speedometer2 me-1"></i> Dashboard
                         </a>
                     </li>
-
-                    <!-- User -->
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="bi bi-people-fill me-1"></i> User
-                        </a>
-
-                        <ul class="dropdown-menu" aria-labelledby="userDropdown">
-                            <li>
-                                <a class="dropdown-item" href="/admin/users">
-                                    <i class="bi bi-person-badge me-2"></i> Users
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="/admin/customers">
-                                    <i class="bi bi-person-fill me-2"></i> Customers
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-
-                    <!-- Vehicle -->
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="vehicleDropdown" role="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="bi bi-car-front-fill me-1"></i> Vehicle
-                        </a>
-
-                        <ul class="dropdown-menu" aria-labelledby="vehicleDropdown">
-                            <li>
-                                <a class="dropdown-item" href="/admin/vehicle_types">
-                                    <i class="bi bi-tags-fill me-2"></i> Vehicle Types
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="/admin/vehicle">
-                                    <i class="bi bi-car-front me-2"></i> Vehicles
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="/admin/maintenance">
-                                    <i class="bi bi-tools me-1"></i> Maintenance
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-
                     <li class="nav-item">
-                        <a class="nav-link" href="/admin/drivers">
-                            <i class="bi bi-person-vcard-fill me-1"></i> Drivers
+                        <a class="nav-link" href="/customer/alamat">
+                            <i class="bi bi-geo-alt-fill me-1"></i> Alamat
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/customer/vehicle">
+                            <i class="bi bi-car-front-fill me-1"></i> Vehicle
                         </a>
                     </li>
 
@@ -98,12 +55,12 @@
 
                         <ul class="dropdown-menu" aria-labelledby="transactionDropdown">
                             <li>
-                                <a class="dropdown-item" href="/admin/rentals">
+                                <a class="dropdown-item" href="/customer/rentals">
                                     <i class="bi bi-journal-check me-2"></i> Rentals
                                 </a>
                             </li>
                             <li>
-                                <a class="dropdown-item" href="/admin/returns">
+                                <a class="dropdown-item" href="/customer/returns">
                                     <i class="bi bi-arrow-return-left me-2"></i> Returns
                                 </a>
                             </li>
@@ -111,14 +68,20 @@
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="/admin/payments">
+                        <a class="nav-link" href="/customer/payments">
                             <i class="bi bi-credit-card-fill me-1"></i> Payments
                         </a>
                     </li>
 
-                     <li class="nav-item">
-                        <a class="nav-link" href="/admin/laporan">
-                            <i class="bi bi-file-earmark-text-fill me-1"></i> Laporan
+                    <li class="nav-item">
+                        <a class="nav-link" href="/customer/drivers">
+                            <i class="bi bi-person-vcard-fill me-1"></i> Drivers
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="/customer/maintenance">
+                            <i class="bi bi-tools me-1"></i> Maintenance
                         </a>
                     </li>
 
@@ -131,7 +94,9 @@
         <div class="card border-0 shadow-lg rounded-4">
             <div class="card-header bg-dark text-white rounded-top-4 border-0 py-3">
                 <div class="d-flex justify-content-between align-items-center">
-                    <h3 class="mb-0 fw-bold"> Data Payment </h3>
+                    <h3 class="mb-0 fw-bold"> Data Customers </h3>
+                    <button class="btn btn-light text-primary fw-semibold rounded-pill px-4" data-bs-toggle="modal"
+                        data-bs-target="#tambahAlamatModal"> + Tambah Data </button>
                 </div>
             </div>
             <div class="card-body p-4">
@@ -140,44 +105,40 @@
                         <table class="table table-striped">
                             <tr>
                                 <th>No</th>
-                                <th>Vehicle & Customer</th>
-                                <th>Amount</th>
-                                <th>Payment Method</th>
-                                <th>Payment Date</th>
-                                <th>Status</th>
+                                <th>User </th>
+                                <th>Nama</th>
+                                <th>Phone</th>
+                                <th>Address</th>
+                                <th>Identity Number</th>
                                 <th>Action</th>
                             </tr>
                             </thead>
                             <tbody>
-                                @foreach ($payments as $payment)
+                                @foreach ($customers as $cust)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>
-                                            {{ $payment->rental->customer->name }}
-                                            -
-                                            {{ $payment->rental->vehicle->brand }}
-                                            {{ $payment->rental->vehicle->model }}
-                                        </td>
-                                        <td>{{ $payment->amount }}</td>
-                                        <td>{{ $payment->payment_method }}</td>
-                                        <td>{{ $payment->payment_date }}</td>
-                                        <td>
-                                            @if ($payment->status == 'pending')
-                                                <span class="badge bg-warning text-dark">Pending</span>
-                                            @elseif ($payment->status == 'paid')
-                                                <span class="badge bg-success">Paid</span>
-                                            @elseif ($payment->status == 'failed')
-                                                <span class="badge bg-danger">Failed</span>
-                                            @else
-                                                <span class="badge bg-secondary">{{ ucfirst($payment->status) }}</span>
-                                            @endif
-                                        </td>
+                                        <td>{{ $cust->user?->name ?? '-' }}</td>
+                                        <td>{{ $cust->name }}</td>
+                                        <td>{{ $cust->phone }}</td>
+                                        <td>{{ $cust->address }}</td>
+                                        <td>{{ $cust->identity_number }}</td>
 
                                         <td>
                                             <button class="btn btn-warning btn-sm" data-bs-toggle="modal"
-                                                data-bs-target="#editModal{{ $payment->id }}">
+                                                data-bs-target="#editModal{{ $cust->id }}">
                                                 Edit
                                             </button>
+
+                                            <form action="/customer/alamat/delete/{{ $cust->id }}" method="POST"
+                                                class="d-inline">
+
+                                                @csrf
+                                                @method('DELETE')
+
+                                                <button type="submit" class="btn btn-danger btn-sm">
+                                                    Hapus
+                                                </button>
+                                            </form>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -189,57 +150,67 @@
     </div>
 
     <!-- Modal Tambah Data -->
-    <div class="modal fade" id="tambahBorrowingModal" tabindex="-1">
+    <div class="modal fade" id="tambahAlamatModal" tabindex="-1">
         <div class="modal-dialog modal-lg modal-dialog-centered">
             <div class="modal-content border-0 rounded-4 shadow">
                 <div class="modal-header bg-dark text-white">
                     <h5 class="modal-title fw-bold">
-                        Add Payments
+                        Add Customers
                     </h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                 </div>
 
                 <div class="modal-body p-4">
-                    <form action="/payment/store" method="POST">
+                    <form action="/customer/alamat/store" method="POST">
                         @csrf
                         <div class="mb-3">
                             <label class="form-label fw-semibold">
-                                Rental Id
+                                User
                             </label>
-                            <input type="text" name="rental_id" class="form-control" placeholder="Masukkan Nama"
+
+                            <select name="user_id" class="form-select" required>
+                                <option value="">
+                                    -- Pilih User --
+                                </option>
+
+                                @foreach ($users as $user)
+                                    <option value="{{ $user->id }}">
+                                        {{ $user->name }} - {{ $user->email }}
+                                    </option>
+                                @endforeach
+
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">
+                                Nama
+                            </label>
+                            <input type="text" name="name" class="form-control" placeholder="Masukkan Nama"
                                 required>
                         </div>
 
                         <div class="mb-3">
                             <label class="form-label fw-semibold">
-                                Amount
+                                Phone
                             </label>
-                            <input type="number" name="amount" class="form-control" placeholder="Masukkan Phone"
+                            <input type="number" name="phone" class="form-control" placeholder="Masukkan Phone"
                                 required>
                         </div>
 
                         <div class="mb-3">
                             <label class="form-label fw-semibold">
-                                Payment Method
+                                Address
                             </label>
-                            <input type="text" name="payment_method" class="form-control"
+                            <input type="teks" name="address" class="form-control" placeholder="Masukan Addres"
+                                required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">
+                                Identity Number
+                            </label>
+                            <input type="number" name="identity_number" class="form-control"
                                 placeholder="Masukan Role" required>
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label fw-semibold">
-                                Payment Date
-                            </label>
-                            <input type="date" name="payment_date" class="form-control"
-                                placeholder="Masukan Role" required>
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label fw-semibold">
-                                Status
-                            </label>
-                            <input type="teks" name="status" class="form-control" placeholder="Masukan Role"
-                                required>
                         </div>
 
                         <div class="text-end">
@@ -256,44 +227,75 @@
         </div>
     </div>
 
-    @foreach ($payments as $payment)
-        <div class="modal fade" id="editModal{{ $payment->id }}" tabindex="-1">
+    @foreach ($customers as $cust)
+        <div class="modal fade" id="editModal{{ $cust->id }}" tabindex="-1">
             <div class="modal-dialog modal-lg modal-dialog-centered">
                 <div class="modal-content border-0 rounded-4 shadow">
                     <div class="modal-header bg-dark text-white">
                         <h5 class="modal-title fw-bold">
-                            Edit Payments
+                            Edit Customers
                         </h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal">
                         </button>
                     </div>
 
                     <div class="modal-body p-4">
-                        <form action="/admin/payment/update/{{ $payment->id }}" method="POST">
+                        <form action="/customer/alamat/update/{{ $cust->id }}" method="POST">
                             @csrf
                             @method('PUT')
 
                             <div class="mb-3">
                                 <label class="form-label fw-semibold">
-                                    Status
+                                    User
                                 </label>
 
-                                <select name="status" class="form-select" required>
+                                <select name="user_id" class="form-select" required>
 
-                                    <option value="pending" {{ $payment->status == 'pending' ? 'selected' : '' }}>
-                                        Pending
+                                    <option value="">
+                                        -- Pilih User --
                                     </option>
 
-                                    <option value="paid" {{ $payment->status == 'paid' ? 'selected' : '' }}>
-                                        Paid
-                                    </option>
+                                    @foreach ($users as $user)
+                                        <option value="{{ $user->id }}"
+                                            {{ $cust->user_id == $user->id ? 'selected' : '' }}>
 
-                                    <option value="failed" {{ $payment->status == 'failed' ? 'selected' : '' }}>
-                                        Failed
-                                    </option>
+                                            {{ $user->name }} - {{ $user->email }}
+
+                                        </option>
+                                    @endforeach
 
                                 </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold">
+                                    Nama
+                                </label>
+                                <input type="text" name="name" class="form-control"
+                                    value="{{ $cust->name }}" required>
+                            </div>
 
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold">
+                                    Phone
+                                </label>
+                                <input type="number" name="phone" class="form-control"
+                                    value="{{ $cust->phone }}" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold">
+                                    Address
+                                </label>
+                                <input type="text" name="address" class="form-control"
+                                    value="{{ $cust->address }}" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold">
+                                    Identity Number
+                                </label>
+                                <input type="number" name="identity_number" class="form-control"
+                                    value="{{ $cust->identity_number }}" required>
                             </div>
 
                             <div class="text-end">

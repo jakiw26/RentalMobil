@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Payment</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
+        <div class="container">
+
+            <a class="navbar-brand fw-bold d-flex align-items-center gap-2" href="/admin">
+                <img src="https://cdn-icons-png.flaticon.com/512/744/744465.png" width="40">
+                DriveRent
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse justify-content-center" id="navbarSupportedContent">
+                <ul class="navbar-nav mb-2 mb-lg-0 gap-3">
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="/customer">
+                            <i class="bi bi-speedometer2 me-1"></i> Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/customer/alamat">
+                            <i class="bi bi-geo-alt-fill me-1"></i> Alamat
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/customer/vehicle">
+                            <i class="bi bi-car-front-fill me-1"></i> Vehicle
+                        </a>
+                    </li>
+
+                    <!-- Rentals -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="transactionDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-receipt-cutoff me-1"></i> Rentals
+                        </a>
+
+                        <ul class="dropdown-menu" aria-labelledby="transactionDropdown">
+                            <li>
+                                <a class="dropdown-item" href="/customer/rentals">
+                                    <i class="bi bi-journal-check me-2"></i> Rentals
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="/customer/returns">
+                                    <i class="bi bi-arrow-return-left me-2"></i> Returns
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="/customer/payments">
+                            <i class="bi bi-credit-card-fill me-1"></i> Payments
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="/customer/drivers">
+                            <i class="bi bi-person-vcard-fill me-1"></i> Drivers
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="/customer/maintenance">
+                            <i class="bi bi-tools me-1"></i> Maintenance
+                        </a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container py-5">
+        <div class="card border-0 shadow-lg rounded-4">
+            <div class="card-header bg-dark text-white rounded-top-4 border-0 py-3">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h3 class="mb-0 fw-bold"> Data Payment </h3> <button
+                        class="btn btn-light text-primary fw-semibold rounded-pill px-4" data-bs-toggle="modal"
+                        data-bs-target="#tambahPaymentModal"> + Tambah Data </button>
+                </div>
+            </div>
+            <div class="card-body p-4">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover align-middle text-center">
+                        <table class="table table-striped">
+                            <tr>
+                                <th>No</th>
+                                <th>Vehicle & Customer</th>
+                                <th>Amount</th>
+                                <th>Payment Method</th>
+                                <th>Payment Date</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($payments as $payment)
+                                    <tr>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>
+                                            {{ $payment->rental->customer->name }}
+                                            -
+                                            {{ $payment->rental->vehicle->brand }}
+                                            {{ $payment->rental->vehicle->model }}
+                                        </td>
+                                        <td>{{ $payment->amount }}</td>
+                                        <td>{{ $payment->payment_method }}</td>
+                                        <td>{{ $payment->payment_date }}</td>
+                                        <td>
+                                            @if ($payment->status == 'pending')
+                                                <span class="badge bg-warning text-dark">Pending</span>
+                                            @elseif ($payment->status == 'paid')
+                                                <span class="badge bg-success">Paid</span>
+                                            @elseif ($payment->status == 'failed')
+                                                <span class="badge bg-danger">Failed</span>
+                                            @else
+                                                <span class="badge bg-secondary">{{ ucfirst($payment->status) }}</span>
+                                            @endif
+                                        </td>
+
+                                        <td>
+                                            <button class="btn btn-warning btn-sm" data-bs-toggle="modal"
+                                                data-bs-target="#editModal{{ $payment->id }}">
+                                                Edit
+                                            </button>
+
+                                            <form action="/customer/payment/delete/{{ $payment->id }}" method="POST"
+                                                class="d-inline">
+
+                                                @csrf
+                                                @method('DELETE')
+
+                                                <button type="submit" class="btn btn-danger btn-sm">
+                                                    Hapus
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="tambahPaymentModal" tabindex="-1">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content border-0 rounded-4 shadow">
+
+                <div class="modal-header bg-dark text-white">
+                    <h5 class="modal-title fw-bold">
+                        Add Payment
+                    </h5>
+
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+
+
+                <div class="modal-body p-4">
+
+                    <div class="text-center mb-4">
+
+                        <h6 class="fw-bold mb-3">
+                            Scan QR / E-Wallet
+                        </h6>
+
+
+                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=QRIS" width="180"
+                            class="img-thumbnail rounded-3 mb-3" alt="QRIS">
+
+
+                        <div class="card border-0 bg-light">
+
+                            <div class="card-body">
+
+                                <p class="mb-1 fw-semibold">
+                                    Nomor E-Wallet
+                                </p>
+
+
+                                <h5 class="fw-bold text-primary">
+                                    0800-0000-000
+                                </h5>
+
+
+                                <small class="text-muted">
+                                    DANA / OVO / GoPay
+                                </small>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <hr>
+
+                    <form action="/customer/payment/store" method="POST">
+
+                        @csrf
+
+
+                        <!-- Rental -->
+                        <div class="mb-3">
+
+                            <label class="form-label fw-semibold">
+                                Rental
+                            </label>
+
+
+                            <select name="rental_id" id="rental_id" class="form-select" required>
+
+
+                                <option value="">
+                                    -- Pilih Rental --
+                                </option>
+
+
+                                @foreach ($rentals as $rental)
+                                    <option value="{{ $rental->id }}" data-price="{{ $rental->total_price }}">
+
+                                        {{ $rental->customer->name }}
+
+                                        -
+
+                                        {{ $rental->vehicle->brand }}
+                                        {{ $rental->vehicle->model }}
+
+                                        |
+
+                                        {{ $rental->vehicle->plate_number }}
+
+                                    </option>
+                                @endforeach
+
+
+                            </select>
+
+                        </div>
+
+
+
+                        <!-- Amount -->
+                        <div class="mb-3">
+
+                            <label class="form-label fw-semibold">
+                                Amount
+                            </label>
+
+
+                            <input type="number" name="amount" id="amount" class="form-control" readonly>
+
+                        </div>
+
+
+
+                        <!-- Payment Method -->
+                        <div class="mb-3">
+
+                            <label class="form-label fw-semibold">
+                                Payment Method
+                            </label>
+
+
+                            <select name="payment_method" class="form-select" required>
+
+
+                                <option value="">
+                                    -- Pilih Metode --
+                                </option>
+
+
+                                <option value="cash">
+                                    Cash
+                                </option>
+
+
+                                <option value="transfer">
+                                    Transfer
+                                </option>
+
+
+                                <option value="e-wallet">
+                                    E-Wallet
+                                </option>
+
+
+                            </select>
+
+                        </div>
+
+
+
+                        <!-- Payment Date -->
+                        <div class="mb-3">
+
+                            <label class="form-label fw-semibold">
+                                Payment Date
+                            </label>
+
+
+                            <input type="date" name="payment_date" class="form-control" required>
+
+                        </div>
+
+
+
+                        <div class="text-end">
+
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+
+                                Batal
+
+                            </button>
+
+
+                            <button type="submit" class="btn btn-primary">
+
+                                Simpan
+
+                            </button>
+
+
+                        </div>
+
+
+                    </form>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    @foreach ($payments as $payment)
+        <div class="modal fade" id="editModal{{ $payment->id }}" tabindex="-1">
+            <div class="modal-dialog modal-lg modal-dialog-centered">
+                <div class="modal-content border-0 rounded-4 shadow">
+
+                    <div class="modal-header bg-dark text-white">
+                        <h5 class="modal-title fw-bold">
+                            <i class="bi bi-pencil-square me-2"></i>
+                            Edit Payment
+                        </h5>
+
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal">
+                        </button>
+                    </div>
+
+
+                    <div class="modal-body p-4">
+
+                        <div class="text-center mb-4">
+
+                            <h6 class="fw-bold mb-3">
+                                Scan QR / E-Wallet
+                            </h6>
+
+
+                            <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=QRIS"
+                                width="180" class="img-thumbnail rounded-3 mb-3" alt="QRIS">
+
+
+                            <div class="card border-0 bg-light">
+
+                                <div class="card-body">
+
+                                    <p class="mb-1 fw-semibold">
+                                        Nomor E-Wallet
+                                    </p>
+
+
+                                    <h5 class="fw-bold text-primary">
+                                        0800-0000-000
+                                    </h5>
+
+
+                                    <small class="text-muted">
+                                        DANA / OVO / GoPay
+                                    </small>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <hr>
+
+                        <form action="/customer/payment/update/{{ $payment->id }}" method="POST"
+                            enctype="multipart/form-data">
+
+                            @csrf
+                            @method('PUT')
+
+
+                            <!-- Rental -->
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold">
+                                    Rental
+                                </label>
+
+                                <select name="rental_id" class="form-select" required>
+                                    <option value="">-- Pilih Rental --</option>
+
+                                    @foreach ($rentals as $rental)
+                                        <option value="{{ $rental->id }}" data-price="{{ $rental->total_price }}"
+                                            {{ $payment->rental_id == $rental->id ? 'selected' : '' }}>
+
+                                            {{ $rental->customer->name }}
+                                            -
+                                            {{ $rental->vehicle->brand }}
+                                            {{ $rental->vehicle->model }}
+                                            |
+                                            {{ $rental->vehicle->plate_number }}
+
+                                        </option>
+                                    @endforeach
+
+                                </select>
+                            </div>
+
+
+                            <!-- Amount -->
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold">
+                                    Amount
+                                </label>
+
+                                <input type="number" name="amount" class="form-control"
+                                    value="{{ $payment->amount }}" required>
+                            </div>
+
+
+                            <!-- Payment Method -->
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold">
+                                    Payment Method
+                                </label>
+
+                                <select name="payment_method" class="form-select" required>
+
+                                    <option value="Cash" {{ $payment->payment_method == 'Cash' ? 'selected' : '' }}>
+                                        Cash
+                                    </option>
+
+                                    <option value="Transfer"
+                                        {{ $payment->payment_method == 'Transfer' ? 'selected' : '' }}>
+                                        Transfer
+                                    </option>
+
+                                    <option value="QRIS" {{ $payment->payment_method == 'QRIS' ? 'selected' : '' }}>
+                                        QRIS
+                                    </option>
+
+                                </select>
+                            </div>
+
+
+                            <!-- Status -->
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold">
+                                    Status
+                                </label>
+
+                                <select name="status" class="form-select">
+
+                                    <option value="Pending" {{ $payment->status == 'Pending' ? 'selected' : '' }}>
+                                        Pending
+                                    </option>
+
+                                    <option value="Paid" {{ $payment->status == 'Paid' ? 'selected' : '' }}>
+                                        Paid
+                                    </option>
+
+                                    <option value="Failed" {{ $payment->status == 'Failed' ? 'selected' : '' }}>
+                                        Failed
+                                    </option>
+
+                                </select>
+                            </div>
+
+
+                            <!-- Proof -->
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold">
+                                    Payment Proof
+                                </label>
+
+                                @if ($payment->proof)
+                                    <div class="mb-2">
+                                        <img src="{{ asset('storage/' . $payment->proof) }}" width="120"
+                                            class="rounded">
+                                    </div>
+                                @endif
+
+
+                                <input type="file" name="proof" class="form-control">
+                            </div>
+
+
+
+                            <div class="text-end mt-4">
+
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                    Batal
+                                </button>
+
+                                <button type="submit" class="btn btn-warning">
+                                    <i class="bi bi-save me-1"></i>
+                                    Update
+                                </button>
+
+                            </div>
+
+
+                        </form>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    @endforeach
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09cYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        document.getElementById('rental_id').addEventListener('change', function() {
+
+            let price = this.options[this.selectedIndex].dataset.price;
+
+
+            document.getElementById('amount').value = price ?? '';
+
+        });
+    </script>
+
+</body>
+
+</html>
+
+</body>
+
+</html>

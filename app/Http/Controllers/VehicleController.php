@@ -13,7 +13,7 @@ class VehicleController extends Controller
     public function index()
     {
         $vehicles = Vehicle::all();
-         $vehicleTypes = Vehicle_type::all();
+        $vehicleTypes = Vehicle_type::all();
         return view('admin.vehicle.index', compact('vehicles', 'vehicleTypes'));
     }
 
@@ -77,4 +77,12 @@ class VehicleController extends Controller
         $vehicle->delete();
         return redirect('/admin/vehicle');
     }
+
+    public function customer()
+    {
+        $vehicles = Vehicle::all();
+        $vehicleTypes = Vehicle_type::all();
+        return view('customer.vehicle.index', compact('vehicles', 'vehicleTypes'));
+    }
+
 }

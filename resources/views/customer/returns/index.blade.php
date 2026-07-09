@@ -31,61 +31,18 @@
                 <ul class="navbar-nav mb-2 mb-lg-0 gap-3">
 
                     <li class="nav-item">
-                        <a class="nav-link" href="/admin">
+                        <a class="nav-link" href="/customer">
                             <i class="bi bi-speedometer2 me-1"></i> Dashboard
                         </a>
                     </li>
-
-                    <!-- User -->
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="bi bi-people-fill me-1"></i> User
-                        </a>
-
-                        <ul class="dropdown-menu" aria-labelledby="userDropdown">
-                            <li>
-                                <a class="dropdown-item" href="/admin/users">
-                                    <i class="bi bi-person-badge me-2"></i> Users
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="/admin/customers">
-                                    <i class="bi bi-person-fill me-2"></i> Customers
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-
-                    <!-- Vehicle -->
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="vehicleDropdown" role="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="bi bi-car-front-fill me-1"></i> Vehicle
-                        </a>
-
-                        <ul class="dropdown-menu" aria-labelledby="vehicleDropdown">
-                            <li>
-                                <a class="dropdown-item" href="/admin/vehicle_types">
-                                    <i class="bi bi-tags-fill me-2"></i> Vehicle Types
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="/admin/vehicle">
-                                    <i class="bi bi-car-front me-2"></i> Vehicles
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="/admin/maintenance">
-                                    <i class="bi bi-tools me-1"></i> Maintenance
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-
                     <li class="nav-item">
-                        <a class="nav-link" href="/admin/drivers">
-                            <i class="bi bi-person-vcard-fill me-1"></i> Drivers
+                        <a class="nav-link" href="/customer/alamat">
+                            <i class="bi bi-geo-alt-fill me-1"></i> Alamat
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/customer/vehicle">
+                            <i class="bi bi-car-front-fill me-1"></i> Vehicle
                         </a>
                     </li>
 
@@ -98,12 +55,12 @@
 
                         <ul class="dropdown-menu" aria-labelledby="transactionDropdown">
                             <li>
-                                <a class="dropdown-item" href="/admin/rentals">
+                                <a class="dropdown-item" href="/customer/rentals">
                                     <i class="bi bi-journal-check me-2"></i> Rentals
                                 </a>
                             </li>
                             <li>
-                                <a class="dropdown-item" href="/admin/returns">
+                                <a class="dropdown-item" href="/customer/returns">
                                     <i class="bi bi-arrow-return-left me-2"></i> Returns
                                 </a>
                             </li>
@@ -111,14 +68,20 @@
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="/admin/payments">
+                        <a class="nav-link" href="/customer/payments">
                             <i class="bi bi-credit-card-fill me-1"></i> Payments
                         </a>
                     </li>
 
-                     <li class="nav-item">
-                        <a class="nav-link" href="/admin/laporan">
-                            <i class="bi bi-file-earmark-text-fill me-1"></i> Laporan
+                    <li class="nav-item">
+                        <a class="nav-link" href="/customer/drivers">
+                            <i class="bi bi-person-vcard-fill me-1"></i> Drivers
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="/customer/maintenance">
+                            <i class="bi bi-tools me-1"></i> Maintenance
                         </a>
                     </li>
 
@@ -179,8 +142,6 @@
             </div>
         </div>
     </div>
-
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-FKyoEForCGlyvwx9Hj09cYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 

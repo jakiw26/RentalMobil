@@ -42,7 +42,7 @@ class Rentals extends Model
     // Rental menggunakan driver (optional)
     public function driver()
     {
-        return $this->belongsTo(Driver::class);
+        return $this->belongsTo(Driver::class, 'driver_id');
     }
 
 
@@ -56,8 +56,8 @@ class Rentals extends Model
 
 
     // Rental memiliki satu pengembalian
-    public function returns()
+    public function return()
     {
-        return $this->hasOne(Returns::class);
+        return $this->hasOne(Returns::class, 'rental_id');
     }
 }

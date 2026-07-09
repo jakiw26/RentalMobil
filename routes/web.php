@@ -20,6 +20,8 @@ use Illuminate\Support\Facades\Route;
 
 //landing page
 Route::get('/',[LandingpageController::class, 'index']);
+
+//Dashboard ADmin
 Route::get('/admin',[LandingpageController::class, 'admin']);
 
 //admin/users
@@ -75,3 +77,37 @@ Route::get('/admin/maintenance', [MaintenanceController::class, 'index']);
 Route::post('/admin/maintenance/store', [MaintenanceController::class, 'store']);
 Route::put('/admin/maintenance/update/{id}', [MaintenanceController::class, 'update']);
 Route::delete('/admin/maintenance/delete/{id}', [MaintenanceController::class, 'destroy']);
+
+//Customer Dashboard
+Route::get('/customer',[LandingpageController::class, 'customer']);
+
+//customer alamat
+Route::get('/customer/alamat', [CustomerController::class, 'customer']);
+Route::post('/customer/alamat/store', [CustomerController::class, 'store']);
+Route::put('/customer/alamat/update/{id}', [CustomerController::class, 'update']);
+Route::delete('/customer/alamat/delete/{id}', [CustomerController::class, 'destroy']);
+
+//Customer vehicle
+Route::get('/customer/vehicle', [VehicleController::class, 'customer']);
+
+//customer rentals
+Route::get('/customer/rentals', [RentalsController::class, 'customer']);
+Route::post('/customer/rentals/store', [RentalsController::class, 'store']);
+Route::put('/customer/rentals/update/{id}', [RentalsController::class, 'updatecust']);
+Route::delete('/customer/rentals/delete/{id}', [RentalsController::class, 'destroy']);
+
+//customer return
+Route::get('/customer/returns', [ReturnsController::class, 'customer']);
+
+//customer Maintenance
+Route::get('/customer/maintenance', [MaintenanceController::class, 'customer']);
+
+//customer Driver
+Route::get('/customer/drivers', [DriverController::class, 'customer']);
+
+//customer payment
+Route::get('/customer/payments', [PaymentController::class, 'customer']);
+Route::post('/customer/payment/store', [PaymentController::class, 'store']);
+Route::put('/customer/payment/update/{id}', [PaymentController::class, 'updatecust']);
+Route::delete('/customer/payment/delete/{id}', [PaymentController::class, 'destroy']);
+
