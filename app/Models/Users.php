@@ -16,6 +16,10 @@ class Users extends Model
         'role'
     ];
 
+    protected $hidden = [
+        'password',
+    ];
+
     public function customer()
     {
         return $this->hasOne(Customer::class);

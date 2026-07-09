@@ -46,6 +46,18 @@
                         </a>
                     </li>
 
+                    <li class="nav-item">
+                        <a class="nav-link" href="/customer/drivers">
+                            <i class="bi bi-person-vcard-fill me-1"></i> Drivers
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="/customer/maintenance">
+                            <i class="bi bi-tools me-1"></i> Maintenance
+                        </a>
+                    </li>
+
                     <!-- Rentals -->
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="transactionDropdown" role="button"
@@ -70,18 +82,6 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/customer/payments">
                             <i class="bi bi-credit-card-fill me-1"></i> Payments
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="/customer/drivers">
-                            <i class="bi bi-person-vcard-fill me-1"></i> Drivers
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="/customer/maintenance">
-                            <i class="bi bi-tools me-1"></i> Maintenance
                         </a>
                     </li>
 

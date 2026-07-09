@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\Users;
+use App\Models\User;
 
 use Illuminate\Http\Request;
 
@@ -10,13 +10,13 @@ class UserController extends Controller
 
     public function index()
     {
-        $users = Users::all();
+        $users = User::all();
         return view('admin.users.index', compact('users'));
     }
 
     public function store(Request $request)
     {
-        Users::create([
+        User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => $request->password,
@@ -29,7 +29,7 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
        
-        $user = Users::find($id);
+        $user = User::find($id);
         
         $user->update([
             'name' => $request->name,
@@ -43,7 +43,7 @@ class UserController extends Controller
 
     public function destroy($id)
     {
-        $user = Users::find($id);
+        $user = User::find($id);
         $user->delete();
         return redirect('/admin/users');
     }

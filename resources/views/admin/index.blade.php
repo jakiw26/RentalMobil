@@ -35,6 +35,12 @@
             transform: translateY(-5px);
             box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
         }
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            height: 280px;
+        }
     </style>
 </head>
 
@@ -273,8 +279,158 @@
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <div class="container mt-5 mb-5">
 
+        <div class="row g-4">
+
+            <div class="col-lg-6">
+
+                <div class="card shadow border-0 chart-card">
+
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0">
+                            🚗 Kendaraan Paling Banyak Dirental
+                        </h5>
+                    </div>
+
+                    <div class="card-body">
+
+                        <div class="chart-container">
+                            <canvas id="rentalChart"></canvas>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-6">
+
+                <div class="card shadow border-0 chart-card">
+
+                    <div class="card-header bg-success text-white">
+                        <h5 class="mb-0">
+                            🔧 Kendaraan Paling Sering Maintenance
+                        </h5>
+                    </div>
+
+                    <div class="card-body">
+
+                        <div class="chart-container">
+                            <canvas id="maintenanceChart"></canvas>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        // Grafik Rental
+        const rentalChart = new Chart(document.getElementById('rentalChart'), {
+            type: 'doughnut',
+            data: {
+                labels: [
+                    @foreach ($rentalChart as $data)
+                        "{{ $data->vehicle }}",
+                    @endforeach
+                ],
+                datasets: [{
+                    data: [
+                        @foreach ($rentalChart as $data)
+                            {{ $data->total }},
+                        @endforeach
+                    ],
+                    backgroundColor: [
+                        '#0d6efd',
+                        '#198754',
+                        '#ffc107',
+                        '#dc3545',
+                        '#6610f2',
+                        '#20c997',
+                        '#fd7e14',
+                        '#6c757d'
+                    ],
+                    borderWidth: 2,
+                    borderColor: '#fff'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                animation: {
+                    animateRotate: true,
+                    animateScale: true
+                },
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            padding: 20,
+                            usePointStyle: true
+                        }
+                    }
+                }
+            }
+        });
+
+        // Grafik Maintenance
+        const maintenanceChart = new Chart(document.getElementById('maintenanceChart'), {
+            type: 'doughnut',
+            data: {
+                labels: [
+                    @foreach ($maintenanceChart as $data)
+                        "{{ $data->vehicle }}",
+                    @endforeach
+                ],
+                datasets: [{
+                    data: [
+                        @foreach ($maintenanceChart as $data)
+                            {{ $data->total }},
+                        @endforeach
+                    ],
+                    backgroundColor: [
+                        '#198754',
+                        '#0dcaf0',
+                        '#ffc107',
+                        '#dc3545',
+                        '#6f42c1',
+                        '#fd7e14',
+                        '#20c997',
+                        '#6c757d'
+                    ],
+                    borderWidth: 2,
+                    borderColor: '#fff'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                animation: {
+                    animateRotate: true,
+                    animateScale: true
+                },
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            padding: 20,
+                            usePointStyle: true
+                        }
+                    }
+                }
+            }
+        });
+    </script>
 </body>
 
 </html>

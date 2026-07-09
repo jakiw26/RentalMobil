@@ -123,7 +123,7 @@
                 kendaraan nyaman, dan pelayanan terbaik.
             </p>
 
-            <a href="/admin" class="btn btn-custom btn-lg">
+            <a href="/login" class="btn btn-custom btn-lg">
                 Lihat Mobil
             </a>
         </div>

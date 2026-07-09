@@ -68,8 +68,20 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="customer/vehicle">
+                        <a class="nav-link" href="/customer/vehicle">
                             <i class="bi bi-car-front-fill me-1"></i> Vehicle
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="/customer/drivers">
+                            <i class="bi bi-person-vcard-fill me-1"></i> Drivers
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="/customer/maintenance">
+                            <i class="bi bi-tools me-1"></i> Maintenance
                         </a>
                     </li>
 
@@ -100,18 +112,6 @@
                         </a>
                     </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="/customer/drivers">
-                            <i class="bi bi-person-vcard-fill me-1"></i> Drivers
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="/customer/maintenance">
-                            <i class="bi bi-tools me-1"></i> Maintenance
-                        </a>
-                    </li>
-
                 </ul>
             </div>
     </nav>
@@ -120,30 +120,13 @@
     <div class="container mt-4">
         <div class="row g-4">
             <div class="col-md-3">
-                <a href="/admin/customers" class="text-decoration-none">
+                <a href="/customer/vehicle" class="text-decoration-none">
                     <div class="card card-dashboard bg-primary text-white shadow-sm">
                         <div class="card-body">
                             <div class="d-flex justify-content-between align-items-center">
                                 <div>
-                                    <h6>Total Customers</h6>
-                                    {{-- <h2>{{ $totalCustomers }}</h2> --}}
-                                </div>
-
-                                <i class="bi bi-people-fill display-5"></i>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-
-            <div class="col-md-3">
-                <a href="/admin/vehicle" class="text-decoration-none">
-                    <div class="card card-dashboard bg-success text-white shadow-sm">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div>
-                                    <h6>Total Vehicles</h6>
-                                    {{-- <h2>{{ $totalVehicles }}</h2> --}}
+                                    <h6>Total Vehicle</h6>
+                                    <h2>{{ $totalVehicles }}</h2>
                                 </div>
 
                                 <i class="bi bi-car-front-fill display-5"></i>
@@ -154,16 +137,16 @@
             </div>
 
             <div class="col-md-3">
-                <a href="/admin/rentals" class="text-decoration-none">
-                    <div class="card card-dashboard bg-warning text-dark shadow-sm">
+                <a href="/customer/drivers" class="text-decoration-none">
+                    <div class="card card-dashboard bg-success text-white shadow-sm">
                         <div class="card-body">
                             <div class="d-flex justify-content-between align-items-center">
                                 <div>
-                                    <h6>Active Rentals</h6>
-                                    {{-- <h2>{{ $activeRentals }}</h2> --}}
+                                    <h6>Drivers</h6>
+                                    <h2>{{ $totalDrivers }}</h2>
                                 </div>
 
-                                <i class="bi bi-journal-check display-5"></i>
+                                <i class="bi bi-person-vcard-fill display-5"></i>
                             </div>
                         </div>
                     </div>
@@ -171,16 +154,33 @@
             </div>
 
             <div class="col-md-3">
-                <a href="/admin/returns" class="text-decoration-none">
+                <a href="/customer/maintenance" class="text-decoration-none">
+                    <div class="card card-dashboard bg-warning text-dark shadow-sm">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h6>Maintenance</h6>
+                                    <h2>{{ $totalMaintenance }}</h2>
+                                </div>
+
+                                <i class="bi bi-tools display-5"></i>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-md-3">
+                <a href="/customer/payments" class="text-decoration-none">
                     <div class="card card-dashboard bg-danger text-white shadow-sm">
                         <div class="card-body">
                             <div class="d-flex justify-content-between align-items-center">
                                 <div>
-                                    <h6>Pending Returns</h6>
-                                    {{-- <h2>{{ $pendingReturns }}</h2> --}}
+                                    <h6>Total Belum Bayar</h6>
+                                    <h2>{{ $BelumLunas }}</h2>
                                 </div>
 
-                                <i class="bi bi-arrow-repeat display-5"></i>
+                                <i class="bi bi-credit-card-fill display-5"></i>
                             </div>
                         </div>
                     </div>
@@ -188,51 +188,111 @@
             </div>
         </div>
 
-        <div class="row mt-5 g-4">
-            <div class="col-md-4">
-                <div class="card menu-card shadow-sm h-100">
-                    <div class="card-body">
-                        <i class="bi bi-car-front-fill display-5 text-primary"></i>
-                        <h4 class="mt-3">Kelola Kendaraan</h4>
-                        <p class="text-muted">
-                            Tambah, edit, dan hapus data kendaraan rental.
-                        </p>
-                        <a href="/admin/vehicle" class="btn btn-primary">
-                            Go
-                        </a>
+        <div class="container py-5">
+
+            <div class="row g-4 justify-content-center">
+
+                <!-- Rental -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="card border-0 shadow rounded-4 h-100">
+
+                        <div class="card-header bg-primary text-white text-center py-3 rounded-top-4 border-0">
+                            <i class="bi bi-journal-check display-5"></i>
+                        </div>
+
+                        <div class="card-body text-center p-4">
+
+                            <span class="badge bg-primary mb-3 px-3 py-2">
+                                Rental Management
+                            </span>
+
+                            <h5 class="fw-bold">
+                                Kelola Rental
+                            </h5>
+
+                            <p class="text-muted small mb-4">
+                                Kelola seluruh transaksi penyewaan kendaraan mulai dari
+                                pemesanan hingga selesai.
+                            </p>
+
+                            <a href="/customer/rentals" class="btn btn-primary btn-sm rounded-pill px-4">
+                                <i class="bi bi-arrow-right-circle me-1"></i>
+                                Kelola Rental
+                            </a>
+
+                        </div>
+
                     </div>
                 </div>
+
+                <!-- Return -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="card border-0 shadow rounded-4 h-100">
+
+                        <div class="card-header bg-success text-white text-center py-3 rounded-top-4 border-0">
+                            <i class="bi bi-arrow-return-left display-5"></i>
+                        </div>
+
+                        <div class="card-body text-center p-4">
+
+                            <span class="badge bg-success mb-3 px-3 py-2">
+                                Return Management
+                            </span>
+
+                            <h5 class="fw-bold">
+                                Data Return
+                            </h5>
+
+                            <p class="text-muted small mb-4">
+                                Kelola seluruh data pengembalian kendaraan rental yang
+                                telah selesai disewa.
+                            </p>
+
+                            <a href="/customer/returns" class="btn btn-success btn-sm rounded-pill px-4">
+                                <i class="bi bi-arrow-right-circle me-1"></i>
+                                Lihat Return
+                            </a>
+
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Payment -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="card border-0 shadow rounded-4 h-100">
+
+                        <div class="card-header bg-warning text-dark text-center py-3 rounded-top-4 border-0">
+                            <i class="bi bi-credit-card-2-front-fill display-5"></i>
+                        </div>
+
+                        <div class="card-body text-center p-4">
+
+                            <span class="badge bg-warning text-dark mb-3 px-3 py-2">
+                                Payment Management
+                            </span>
+
+                            <h5 class="fw-bold">
+                                Pembayaran
+                            </h5>
+
+                            <p class="text-muted small mb-4">
+                                Kelola pembayaran serta lihat riwayat transaksi rental
+                                kendaraan.
+                            </p>
+
+                            <a href="/customer/payments" class="btn btn-warning btn-sm rounded-pill px-4">
+                                <i class="bi bi-arrow-right-circle me-1"></i>
+                                Lihat Pembayaran
+                            </a>
+
+                        </div>
+
+                    </div>
+                </div>
+
             </div>
 
-            <div class="col-md-4">
-                <div class="card menu-card shadow-sm h-100">
-                    <div class="card-body">
-                        <i class="bi bi-people-fill display-5 text-success"></i>
-                        <h4 class="mt-3">Data Customers</h4>
-                        <p class="text-muted">
-                            Kelola data pelanggan rental mobil.
-                        </p>
-                        <a href="/admin/customers" class="btn btn-success">
-                            Go
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-4">
-                <div class="card menu-card shadow-sm h-100">
-                    <div class="card-body">
-                        <i class="bi bi-cash-stack display-5 text-warning"></i>
-                        <h4 class="mt-3">Transaksi Rental</h4>
-                        <p class="text-muted">
-                            Lihat data transaksi penyewaan mobil.
-                        </p>
-                        <a href="/admin/payments" class="btn btn-warning">
-                            Go
-                        </a>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 

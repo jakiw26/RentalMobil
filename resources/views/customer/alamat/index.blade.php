@@ -46,6 +46,18 @@
                         </a>
                     </li>
 
+                    <li class="nav-item">
+                        <a class="nav-link" href="/customer/drivers">
+                            <i class="bi bi-person-vcard-fill me-1"></i> Drivers
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="/customer/maintenance">
+                            <i class="bi bi-tools me-1"></i> Maintenance
+                        </a>
+                    </li>
+
                     <!-- Rentals -->
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="transactionDropdown" role="button"
@@ -73,18 +85,6 @@
                         </a>
                     </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="/customer/drivers">
-                            <i class="bi bi-person-vcard-fill me-1"></i> Drivers
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="/customer/maintenance">
-                            <i class="bi bi-tools me-1"></i> Maintenance
-                        </a>
-                    </li>
-
                 </ul>
             </div>
         </div>
@@ -95,8 +95,12 @@
             <div class="card-header bg-dark text-white rounded-top-4 border-0 py-3">
                 <div class="d-flex justify-content-between align-items-center">
                     <h3 class="mb-0 fw-bold"> Data Customers </h3>
-                    <button class="btn btn-light text-primary fw-semibold rounded-pill px-4" data-bs-toggle="modal"
-                        data-bs-target="#tambahAlamatModal"> + Tambah Data </button>
+                    @if ($customers->count() == 0)
+                        <button class="btn btn-light text-primary fw-semibold rounded-pill px-4" data-bs-toggle="modal"
+                            data-bs-target="#tambahAlamatModal">
+                            + Tambah Data
+                        </button>
+                    @endif
                 </div>
             </div>
             <div class="card-body p-4">
@@ -244,28 +248,6 @@
                             @csrf
                             @method('PUT')
 
-                            <div class="mb-3">
-                                <label class="form-label fw-semibold">
-                                    User
-                                </label>
-
-                                <select name="user_id" class="form-select" required>
-
-                                    <option value="">
-                                        -- Pilih User --
-                                    </option>
-
-                                    @foreach ($users as $user)
-                                        <option value="{{ $user->id }}"
-                                            {{ $cust->user_id == $user->id ? 'selected' : '' }}>
-
-                                            {{ $user->name }} - {{ $user->email }}
-
-                                        </option>
-                                    @endforeach
-
-                                </select>
-                            </div>
                             <div class="mb-3">
                                 <label class="form-label fw-semibold">
                                     Nama

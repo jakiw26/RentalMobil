@@ -10,6 +10,8 @@ use App\Http\Controllers\RentalsController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\DriverController;
 use App\Http\Controllers\MaintenanceController;
+use App\Http\Controllers\LaporanController;
+use App\Http\Controllers\AuthController;
 
 
 use Illuminate\Support\Facades\Route;
@@ -78,6 +80,9 @@ Route::post('/admin/maintenance/store', [MaintenanceController::class, 'store'])
 Route::put('/admin/maintenance/update/{id}', [MaintenanceController::class, 'update']);
 Route::delete('/admin/maintenance/delete/{id}', [MaintenanceController::class, 'destroy']);
 
+//Admin Laporan
+Route::get('/admin/laporan', [LaporanController::class, 'index']);
+
 //Customer Dashboard
 Route::get('/customer',[LandingpageController::class, 'customer']);
 
@@ -111,3 +116,10 @@ Route::post('/customer/payment/store', [PaymentController::class, 'store']);
 Route::put('/customer/payment/update/{id}', [PaymentController::class, 'updatecust']);
 Route::delete('/customer/payment/delete/{id}', [PaymentController::class, 'destroy']);
 
+Route::get('/login', [AuthController::class, 'login'])->name('login');
+Route::post('/login', [AuthController::class, 'authenticate']);
+
+Route::get('/register', [AuthController::class, 'register']);
+Route::post('/register', [AuthController::class, 'storeRegister']);
+
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
