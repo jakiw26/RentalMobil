@@ -85,6 +85,54 @@
                         </a>
                     </li>
 
+                    <ul class="navbar-nav ms-auto align-items-center">
+
+                        <li class="nav-item dropdown">
+
+                            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+
+                                <i class="bi bi-person-circle me-1"></i>
+
+                                {{ Auth::user()->name }}
+
+                            </a>
+
+                            <ul class="dropdown-menu dropdown-menu-end">
+
+                                <li>
+                                    <span class="dropdown-item-text fw-bold">
+                                        {{ Auth::user()->email }}
+                                    </span>
+                                </li>
+
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+
+                                <li>
+
+                                    <form action="{{ route('logout') }}" method="POST">
+
+                                        @csrf
+
+                                        <button type="submit" class="dropdown-item text-danger">
+
+                                            <i class="bi bi-box-arrow-right me-2"></i>
+
+                                            Logout
+
+                                        </button>
+
+                                    </form>
+
+                                </li>
+
+                            </ul>
+
+                        </li>
+
+                    </ul>
+
                 </ul>
             </div>
         </div>
@@ -103,6 +151,15 @@
                     @endif
                 </div>
             </div>
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul class="mb-0">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
             <div class="card-body p-4">
                 <div class="table-responsive">
                     <table class="table table-bordered table-hover align-middle text-center">
@@ -168,22 +225,12 @@
                     <form action="/customer/alamat/store" method="POST">
                         @csrf
                         <div class="mb-3">
-                            <label class="form-label fw-semibold">
-                                User
-                            </label>
+                            <label class="form-label">User</label>
 
-                            <select name="user_id" class="form-select" required>
-                                <option value="">
-                                    -- Pilih User --
-                                </option>
+                            <input type="text" class="form-control"
+                                value="{{ Auth::user()->name }} - {{ Auth::user()->email }}" readonly>
 
-                                @foreach ($users as $user)
-                                    <option value="{{ $user->id }}">
-                                        {{ $user->name }} - {{ $user->email }}
-                                    </option>
-                                @endforeach
-
-                            </select>
+                            <input type="hidden" name="user_id" value="{{ Auth::id() }}">
                         </div>
                         <div class="mb-3">
                             <label class="form-label fw-semibold">
@@ -247,6 +294,15 @@
                         <form action="/customer/alamat/update/{{ $cust->id }}" method="POST">
                             @csrf
                             @method('PUT')
+
+                            <div class="mb-3">
+                                <label class="form-label">User</label>
+
+                                <input type="text" class="form-control"
+                                    value="{{ Auth::user()->name }} - {{ Auth::user()->email }}" readonly>
+
+                                <input type="hidden" name="user_id" value="{{ Auth::id() }}">
+                            </div>
 
                             <div class="mb-3">
                                 <label class="form-label fw-semibold">

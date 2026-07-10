@@ -85,6 +85,54 @@
                         </a>
                     </li>
 
+                    <ul class="navbar-nav ms-auto align-items-center">
+
+                        <li class="nav-item dropdown">
+
+                            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+
+                                <i class="bi bi-person-circle me-1"></i>
+
+                                {{ Auth::user()->name }}
+
+                            </a>
+
+                            <ul class="dropdown-menu dropdown-menu-end">
+
+                                <li>
+                                    <span class="dropdown-item-text fw-bold">
+                                        {{ Auth::user()->email }}
+                                    </span>
+                                </li>
+
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+
+                                <li>
+
+                                    <form action="{{ route('logout') }}" method="POST">
+
+                                        @csrf
+
+                                        <button type="submit" class="dropdown-item text-danger">
+
+                                            <i class="bi bi-box-arrow-right me-2"></i>
+
+                                            Logout
+
+                                        </button>
+
+                                    </form>
+
+                                </li>
+
+                            </ul>
+
+                        </li>
+
+                    </ul>
+
                 </ul>
             </div>
         </div>
@@ -482,47 +530,10 @@
 
                             <!-- Status -->
                             <div class="mb-3">
-                                <label class="form-label fw-semibold">
-                                    Status
-                                </label>
+                                <label class="form-label fw-semibold">Status</label>
 
-                                <select name="status" class="form-select">
-
-                                    <option value="Pending" {{ $payment->status == 'Pending' ? 'selected' : '' }}>
-                                        Pending
-                                    </option>
-
-                                    <option value="Paid" {{ $payment->status == 'Paid' ? 'selected' : '' }}>
-                                        Paid
-                                    </option>
-
-                                    <option value="Failed" {{ $payment->status == 'Failed' ? 'selected' : '' }}>
-                                        Failed
-                                    </option>
-
-                                </select>
+                                <input type="text" class="form-control" value="{{ $payment->status }}" readonly>
                             </div>
-
-
-                            <!-- Proof -->
-                            <div class="mb-3">
-                                <label class="form-label fw-semibold">
-                                    Payment Proof
-                                </label>
-
-                                @if ($payment->proof)
-                                    <div class="mb-2">
-                                        <img src="{{ asset('storage/' . $payment->proof) }}" width="120"
-                                            class="rounded">
-                                    </div>
-                                @endif
-
-
-                                <input type="file" name="proof" class="form-control">
-                            </div>
-
-
-
                             <div class="text-end mt-4">
 
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">

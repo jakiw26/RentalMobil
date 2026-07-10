@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Customer;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 
 class AuthController extends Controller
@@ -63,9 +64,9 @@ class AuthController extends Controller
         Customer::create([
             'user_id' => $user->id,
             'name' => $request->name,
-            'phone' => '',
-            'address' => '',
-            'identity_number' => ''
+            'phone' => '-',
+            'address' => '-',
+            'identity_number' => 'TEMP-' . time(),
         ]);
 
         return redirect('/login')->with('success', 'Akun berhasil dibuat.');

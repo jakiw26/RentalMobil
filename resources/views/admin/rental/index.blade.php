@@ -14,10 +14,11 @@
 
     <body>
 
-        <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
             <div class="container">
 
-                <a class="navbar-brand fw-bold d-flex align-items-center gap-2" href="/admin">
+                <a class="navbar-brand fw-bold d-flex align-items-center gap-2" href="#">
                     <img src="https://cdn-icons-png.flaticon.com/512/744/744465.png" width="40">
                     DriveRent
                 </a>
@@ -122,9 +123,56 @@
                             </a>
                         </li>
 
+
+                        <ul class="navbar-nav ms-auto align-items-center">
+
+                            <li class="nav-item dropdown">
+
+                                <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+
+                                    <i class="bi bi-person-circle me-1"></i>
+
+                                    {{ Auth::user()->name }}
+
+                                </a>
+
+                                <ul class="dropdown-menu dropdown-menu-end">
+
+                                    <li>
+                                        <span class="dropdown-item-text fw-bold">
+                                            {{ Auth::user()->email }}
+                                        </span>
+                                    </li>
+
+                                    <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
+
+                                    <li>
+
+                                        <form action="{{ route('logout') }}" method="POST">
+
+                                            @csrf
+
+                                            <button type="submit" class="dropdown-item text-danger">
+
+                                                <i class="bi bi-box-arrow-right me-2"></i>
+
+                                                Logout
+
+                                            </button>
+
+                                        </form>
+
+                                    </li>
+
+                                </ul>
+
+                            </li>
+
+                        </ul>
                     </ul>
                 </div>
-            </div>
         </nav>
 
         <div class="container py-5">
@@ -175,7 +223,8 @@
                                                 @elseif ($rental->status == 'finished')
                                                     <span class="badge bg-primary">Finished</span>
                                                 @else
-                                                    <span class="badge bg-secondary">{{ ucfirst($rental->status) }}</span>
+                                                    <span
+                                                        class="badge bg-secondary">{{ ucfirst($rental->status) }}</span>
                                                 @endif
                                             </td>
 
@@ -263,8 +312,8 @@
                                 <label class="form-label fw-semibold">
                                     Status
                                 </label>
-                                <input type="text" name="status" class="form-control" placeholder="Masukan status"
-                                    required>
+                                <input type="text" name="status" class="form-control"
+                                    placeholder="Masukan status" required>
                             </div>
 
                             <div class="text-end">
@@ -313,17 +362,20 @@
                                         </option>
 
 
-                                        <option value="approved" {{ $rental->status == 'approved' ? 'selected' : '' }}>
+                                        <option value="approved"
+                                            {{ $rental->status == 'approved' ? 'selected' : '' }}>
                                             Approved
                                         </option>
 
 
-                                        <option value="rejected" {{ $rental->status == 'rejected' ? 'selected' : '' }}>
+                                        <option value="rejected"
+                                            {{ $rental->status == 'rejected' ? 'selected' : '' }}>
                                             Rejected
                                         </option>
 
 
-                                        <option value="finished" {{ $rental->status == 'finished' ? 'selected' : '' }}>
+                                        <option value="finished"
+                                            {{ $rental->status == 'finished' ? 'selected' : '' }}>
                                             Finished
                                         </option>
 

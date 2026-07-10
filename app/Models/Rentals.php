@@ -50,7 +50,7 @@ class Rentals extends Model
     // Rental memiliki satu pembayaran
     public function payment()
     {
-        return $this->hasOne(Payment::class);
+        return $this->hasOne(Payment::class, 'rental_id');
     }
 
 

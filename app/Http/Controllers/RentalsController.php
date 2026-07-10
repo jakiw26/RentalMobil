@@ -6,6 +6,9 @@ use App\Models\Rentals;
 use App\Models\Customer;
 use App\Models\Vehicle;
 use App\Models\Driver;
+use App\Models\Returns;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Http\Request;
 
@@ -24,8 +27,11 @@ class RentalsController extends Controller
 
     public function store(Request $request)
     {
+
+        $customer = Customer::where('user_id', Auth::id())->firstOrFail();
+
         Rentals::create([
-            'customer_id' => $request->customer_id,
+            'customer_id' => $customer->id,
             'driver_id' => $request->driver_id,
             'vehicle_id' => $request->vehicle_id,
             'rent_date' => $request->rent_date,
@@ -64,18 +70,28 @@ class RentalsController extends Controller
 
     public function customer()
     {
-        $rentals = Rentals::all();
+        $customer = Customer::where('user_id', Auth::id())->first();
+
         $rentals = Rentals::with([
             'customer',
             'vehicle',
             'driver'
-        ])->get();
+        ])
+            ->where('customer_id', $customer->id)
+            ->get();
 
-        $customers = Customer::all();
+        $customers = Customer::where('user_id', Auth::id())->get();
+
         $vehicles = Vehicle::where('status', 'available')->get();
+
         $drivers = Driver::where('status', 'available')->get();
 
-        return view('customer.rental.index', compact('rentals', 'customers', 'vehicles', 'drivers'));
+        return view('customer.rental.index', compact(
+            'rentals',
+            'customers',
+            'vehicles',
+            'drivers'
+        ));
     }
 
     public function updatecust(Request $request, $id)
@@ -109,5 +125,36 @@ class RentalsController extends Controller
 
         return redirect('/customer/rentals')
             ->with('success', 'Rental berhasil diperbarui');
+    }
+
+    public function returnCar($id)
+    {
+        $rental = Rentals::findOrFail($id);
+
+        $lateDays = 0;
+
+        if (Carbon::today()->gt(Carbon::parse($rental->return_date))) {
+
+            $lateDays = Carbon::parse($rental->return_date)
+                ->diffInDays(Carbon::today());
+        }
+
+        $fine = $lateDays * 50000;
+
+        Returns::create([
+
+            'rental_id' => $rental->id,
+            'return_date' => Carbon::today(),
+            'late_days' => $lateDays,
+            'fine' => $fine,
+
+        ]);
+
+        $rental->update([
+            'status' => 'finished'
+        ]);
+
+        return redirect('/customer/rentals')
+            ->with('success', 'Mobil berhasil dikembalikan.');
     }
 }

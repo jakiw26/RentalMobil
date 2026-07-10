@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Returns;
 use App\Models\Rentals;
+use App\Models\Customer;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Http\Request;
 
@@ -81,14 +83,23 @@ class ReturnsController extends Controller
 
     public function customer()
     {
-        $returns = Returns::all();
+        $customer = Customer::where('user_id', Auth::id())->first();
 
         $rentals = Rentals::with([
             'customer',
-            'vehicle'
-        ])->get();
+            'vehicle',
+        ])
+            ->where('customer_id', $customer->id)
+            ->get();
 
-        $returns = Returns::with('rental.customer')->get();
+        $returns = Returns::with([
+            'rental.customer',
+            'rental.vehicle'
+        ])
+            ->whereHas('rental', function ($query) use ($customer) {
+                $query->where('customer_id', $customer->id);
+            })
+            ->get();
 
         return view('customer.returns.index', compact(
             'returns',

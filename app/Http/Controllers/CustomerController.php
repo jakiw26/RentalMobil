@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Customer;
 use App\Models\Users;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Http\Request;
 
@@ -18,19 +20,41 @@ class CustomerController extends Controller
 
     public function store(Request $request)
     {
+
+        $request->validate(
+            [
+                'identity_number' => 'required|unique:customer,identity_number',
+            ],
+            [
+                'identity_number.unique' => 'Nomor KTP sudah terdaftar.',
+                'identity_number.required' => 'Nomor KTP wajib diisi.',
+            ]
+        );
+
         Customer::create([
-            'user_id' => $request->user_id,
+            'user_id' => Auth::id(),
             'name' => $request->name,
             'phone' => $request->phone,
             'address' => $request->address,
             'identity_number' => $request->identity_number
         ]);
 
-        return redirect('/customer/alamat');
+        return redirect('/customer/alamat')->with('success', 'Alamat berhasil ditambahkan');
     }
 
     public function update(Request $request, $id)
     {
+
+        $request->validate(
+            [
+                'identity_number' => 'required|unique:customer,identity_number',
+            ],
+            [
+                'identity_number.unique' => 'Nomor KTP sudah terdaftar.',
+                'identity_number.required' => 'Nomor KTP wajib diisi.',
+            ]
+        );
+        
         $customer = Customer::find($id);
 
         $customer->update([
@@ -41,7 +65,7 @@ class CustomerController extends Controller
             'identity_number' => $request->identity_number
         ]);
 
-        return redirect('/customer/alamat');
+        return redirect('/customer/alamat')->with('success', 'Alamat berhasil diubah');
     }
 
     public function destroy($id)
@@ -53,8 +77,10 @@ class CustomerController extends Controller
 
     public function customer()
     {
+        $customers = Customer::with('user')
+            ->where('user_id', Auth::id())
+            ->get();
 
-        $customers = Customer::with('user')->get();
         $users = Users::where('role', 'customer')->get();
 
         return view('customer.alamat.index', compact(

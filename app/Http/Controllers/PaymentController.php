@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Payment;
 use App\Models\Rentals;
+use App\Models\Customer;
+use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Http\Request;
 
@@ -59,17 +61,23 @@ class PaymentController extends Controller
 
     public function customer()
     {
+        $customer = Customer::where('user_id', Auth::id())->first();
+
         $payments = Payment::with([
             'rental.customer',
             'rental.vehicle'
-        ])->get();
-
+        ])
+            ->whereHas('rental', function ($query) use ($customer) {
+                $query->where('customer_id', $customer->id);
+            })
+            ->get();
 
         $rentals = Rentals::with([
             'customer',
             'vehicle'
-        ])->get();
-
+        ])
+            ->where('customer_id', $customer->id)
+            ->get();
 
         return view('customer.payment.index', compact(
             'payments',
@@ -83,24 +91,18 @@ class PaymentController extends Controller
             'rental_id' => 'required',
             'amount' => 'required|numeric',
             'payment_method' => 'required',
-            'status' => 'required',
             'proof' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
-
         $payment = Payment::findOrFail($id);
-
 
         $data = [
             'rental_id' => $request->rental_id,
             'amount' => $request->amount,
             'payment_method' => $request->payment_method,
-            'status' => $request->status,
         ];
 
-
         $payment->update($data);
-
 
         return redirect('/customer/payments')
             ->with('success', 'Payment berhasil diperbarui!');

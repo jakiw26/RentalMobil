@@ -85,6 +85,54 @@
                         </a>
                     </li>
 
+                    <ul class="navbar-nav ms-auto align-items-center">
+
+                        <li class="nav-item dropdown">
+
+                            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+
+                                <i class="bi bi-person-circle me-1"></i>
+
+                                {{ Auth::user()->name }}
+
+                            </a>
+
+                            <ul class="dropdown-menu dropdown-menu-end">
+
+                                <li>
+                                    <span class="dropdown-item-text fw-bold">
+                                        {{ Auth::user()->email }}
+                                    </span>
+                                </li>
+
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+
+                                <li>
+
+                                    <form action="{{ route('logout') }}" method="POST">
+
+                                        @csrf
+
+                                        <button type="submit" class="dropdown-item text-danger">
+
+                                            <i class="bi bi-box-arrow-right me-2"></i>
+
+                                            Logout
+
+                                        </button>
+
+                                    </form>
+
+                                </li>
+
+                            </ul>
+
+                        </li>
+
+                    </ul>
+
                 </ul>
             </div>
         </div>
@@ -145,21 +193,44 @@
                                         </td>
 
                                         <td>
+
+                                            @if ($rental->status != 'finished')
+                                                <form action="/customer/rentals/return/{{ $rental->id }}"
+                                                    method="POST" class="d-inline">
+                                                    @csrf
+
+                                                    <button class="btn btn-success btn-sm"
+                                                        onclick="return confirm('Yakin mobil akan dikembalikan?')">
+
+                                                        <i class="bi bi-arrow-return-left"></i>
+                                                        Kembalikan
+
+                                                    </button>
+
+                                                </form>
+                                            @else
+                                                <span class="badge bg-success">
+                                                    Sudah Dikembalikan
+                                                </span>
+                                            @endif
+
                                             <button class="btn btn-warning btn-sm" data-bs-toggle="modal"
                                                 data-bs-target="#editModal{{ $rental->id }}">
                                                 Edit
                                             </button>
 
-                                            <form action="/customer/rentals/delete/{{ $rental->id }}" method="POST"
-                                                class="d-inline">
+                                            <form action="/customer/rentals/delete/{{ $rental->id }}"
+                                                method="POST" class="d-inline">
 
                                                 @csrf
                                                 @method('DELETE')
 
-                                                <button type="submit" class="btn btn-danger btn-sm">
+                                                <button class="btn btn-danger btn-sm">
                                                     Hapus
                                                 </button>
+
                                             </form>
+
                                         </td>
                                     </tr>
                                 @endforeach
@@ -186,24 +257,10 @@
                         @csrf
 
                         <div class="mb-3">
-                            <label class="form-label fw-semibold">
-                                Customer
-                            </label>
+                            <label class="form-label fw-semibold">Customer</label>
 
-                            <select name="customer_id" class="form-select" required>
-                                <option value="">
-                                    -- Pilih Customer --
-                                </option>
-
-                                @foreach ($customers as $customer)
-                                    <option value="{{ $customer->id }}">
-                                        {{ $customer->name }}
-                                    </option>
-                                @endforeach
-
-                            </select>
+                            <input type="text" class="form-control" value="{{ Auth::user()->name }}" readonly>
                         </div>
-
 
                         <div class="mb-3">
                             <label class="form-label fw-semibold">

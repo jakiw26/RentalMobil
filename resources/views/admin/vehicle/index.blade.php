@@ -14,10 +14,11 @@
 
 <body>
 
-    <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
         <div class="container">
 
-            <a class="navbar-brand fw-bold d-flex align-items-center gap-2" href="/admin">
+            <a class="navbar-brand fw-bold d-flex align-items-center gap-2" href="#">
                 <img src="https://cdn-icons-png.flaticon.com/512/744/744465.png" width="40">
                 DriveRent
             </a>
@@ -116,15 +117,62 @@
                         </a>
                     </li>
 
-                     <li class="nav-item">
+                    <li class="nav-item">
                         <a class="nav-link" href="/admin/laporan">
                             <i class="bi bi-file-earmark-text-fill me-1"></i> Laporan
                         </a>
                     </li>
 
+
+                    <ul class="navbar-nav ms-auto align-items-center">
+
+                        <li class="nav-item dropdown">
+
+                            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+
+                                <i class="bi bi-person-circle me-1"></i>
+
+                                {{ Auth::user()->name }}
+
+                            </a>
+
+                            <ul class="dropdown-menu dropdown-menu-end">
+
+                                <li>
+                                    <span class="dropdown-item-text fw-bold">
+                                        {{ Auth::user()->email }}
+                                    </span>
+                                </li>
+
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+
+                                <li>
+
+                                    <form action="{{ route('logout') }}" method="POST">
+
+                                        @csrf
+
+                                        <button type="submit" class="dropdown-item text-danger">
+
+                                            <i class="bi bi-box-arrow-right me-2"></i>
+
+                                            Logout
+
+                                        </button>
+
+                                    </form>
+
+                                </li>
+
+                            </ul>
+
+                        </li>
+
+                    </ul>
                 </ul>
             </div>
-        </div>
     </nav>
 
 

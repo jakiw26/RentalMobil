@@ -58,6 +58,7 @@ Route::delete('/admin/rentals/delete/{id}', [RentalsController::class, 'destroy'
 
 //damin return
 Route::get('/admin/returns', [ReturnsController::class, 'index']);
+Route::post('/admin/returns/{rental}/return', [ReturnsController::class,'returnCar']);
 Route::post('/admin/returns/store', [ReturnsController::class, 'store']);
 Route::put('/admin/returns/update/{id}', [ReturnsController::class, 'update']);
 Route::delete('/admin/returns/delete/{id}', [ReturnsController::class, 'destroy']);
@@ -100,6 +101,7 @@ Route::get('/customer/rentals', [RentalsController::class, 'customer']);
 Route::post('/customer/rentals/store', [RentalsController::class, 'store']);
 Route::put('/customer/rentals/update/{id}', [RentalsController::class, 'updatecust']);
 Route::delete('/customer/rentals/delete/{id}', [RentalsController::class, 'destroy']);
+Route::post('/customer/rentals/return/{id}', [RentalsController::class, 'returnCar']);
 
 //customer return
 Route::get('/customer/returns', [ReturnsController::class, 'customer']);
