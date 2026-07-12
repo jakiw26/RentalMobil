@@ -21,102 +21,110 @@ use Illuminate\Support\Facades\Route;
 // });
 
 //landing page
-Route::get('/',[LandingpageController::class, 'index']);
+Route::get('/', [LandingpageController::class, 'index']);
 
-//Dashboard ADmin
-Route::get('/admin',[LandingpageController::class, 'admin']);
 
-//admin/users
-Route::get('/admin/users', [UserController::class, 'index']);
-Route::post('/user/store', [UserController::class, 'store']);
-Route::put('/user/update/{id}', [UserController::class, 'update']);
-Route::delete('/user/delete/{id}', [UserController::class, 'destroy']);
+// Admin
+Route::middleware(['auth', 'role:admin'])->group(function () {
+    //Dashboard ADmin
+    Route::get('/admin', [LandingpageController::class, 'admin']);
 
-//admin customers
-Route::get('/admin/customers', [CustomerController::class, 'index']);
-Route::post('/admin/store', [CustomerController::class, 'store']);
-Route::put('/admin/update/{id}', [CustomerController::class, 'update']);
-Route::delete('/admin/delete/{id}', [CustomerController::class, 'destroy']);
+    //admin/users
+    Route::get('/admin/users', [UserController::class, 'index']);
+    Route::post('/user/store', [UserController::class, 'store']);
+    Route::put('/user/update/{id}', [UserController::class, 'update']);
+    Route::delete('/user/delete/{id}', [UserController::class, 'destroy']);
 
-//admin vehicle
-Route::get('/admin/vehicle', [VehicleController::class, 'index']);
-Route::post('/admin/vehicle/store', [VehicleController::class, 'store']);
-Route::put('/admin/vehicle/update/{id}', [VehicleController::class, 'update']);
-Route::delete('/admin/vehicle/delete/{id}', [VehicleController::class, 'destroy']);
+    //admin customers
+    Route::get('/admin/customers', [CustomerController::class, 'index']);
+    Route::post('/admin/store', [CustomerController::class, 'store']);
+    Route::put('/admin/update/{id}', [CustomerController::class, 'update']);
+    Route::delete('/admin/delete/{id}', [CustomerController::class, 'destroy']);
 
-//admin vehicle type
-Route::get('/admin/vehicle_types', [VehicleTypeController::class, 'index']);
-Route::post('/admin/vehicle_type/store', [VehicleTypeController::class, 'store']);
-Route::put('/admin/vehicle_type/update/{id}', [VehicleTypeController::class, 'update']);
-Route::delete('/admin/vehicle_type/delete/{id}', [VehicleTypeController::class, 'destroy']);
+    //admin vehicle
+    Route::get('/admin/vehicle', [VehicleController::class, 'index']);
+    Route::post('/admin/vehicle/store', [VehicleController::class, 'store']);
+    Route::put('/admin/vehicle/update/{id}', [VehicleController::class, 'update']);
+    Route::delete('/admin/vehicle/delete/{id}', [VehicleController::class, 'destroy']);
 
-//admin rentals
-Route::get('/admin/rentals', [RentalsController::class, 'index']);
-Route::post('/admin/rentals/store', [RentalsController::class, 'store']);
-Route::put('/admin/rentals/update/{id}', [RentalsController::class, 'update']);
-Route::delete('/admin/rentals/delete/{id}', [RentalsController::class, 'destroy']);
+    //admin vehicle type
+    Route::get('/admin/vehicle_types', [VehicleTypeController::class, 'index']);
+    Route::post('/admin/vehicle_type/store', [VehicleTypeController::class, 'store']);
+    Route::put('/admin/vehicle_type/update/{id}', [VehicleTypeController::class, 'update']);
+    Route::delete('/admin/vehicle_type/delete/{id}', [VehicleTypeController::class, 'destroy']);
 
-//damin return
-Route::get('/admin/returns', [ReturnsController::class, 'index']);
-Route::post('/admin/returns/{rental}/return', [ReturnsController::class,'returnCar']);
-Route::post('/admin/returns/store', [ReturnsController::class, 'store']);
-Route::put('/admin/returns/update/{id}', [ReturnsController::class, 'update']);
-Route::delete('/admin/returns/delete/{id}', [ReturnsController::class, 'destroy']);
+    //admin rentals
+    Route::get('/admin/rentals', [RentalsController::class, 'index']);
+    Route::post('/admin/rentals/store', [RentalsController::class, 'store']);
+    Route::put('/admin/rentals/update/{id}', [RentalsController::class, 'update']);
+    Route::delete('/admin/rentals/delete/{id}', [RentalsController::class, 'destroy']);
 
-//admin payment
-Route::get('/admin/payments', [PaymentController::class, 'index']);
-Route::post('/admin/payment/store', [PaymentController::class, 'store']);
-Route::put('/admin/payment/update/{id}', [PaymentController::class, 'update']);
-Route::delete('/admin/payment/delete/{id}', [PaymentController::class, 'destroy']);
+    //damin return
+    Route::get('/admin/returns', [ReturnsController::class, 'index']);
+    Route::post('/admin/returns/{rental}/return', [ReturnsController::class, 'returnCar']);
+    Route::post('/admin/returns/store', [ReturnsController::class, 'store']);
+    Route::put('/admin/returns/update/{id}', [ReturnsController::class, 'update']);
+    Route::delete('/admin/returns/delete/{id}', [ReturnsController::class, 'destroy']);
 
-//admin Driver
-Route::get('/admin/drivers', [DriverController::class, 'index']);
-Route::post('/admin/drivers/store', [DriverController::class, 'store']);
-Route::put('/admin/drivers/update/{id}', [DriverController::class, 'update']);
-Route::delete('/admin/drivers/delete/{id}', [DriverController::class, 'destroy']);
+    //admin payment
+    Route::get('/admin/payments', [PaymentController::class, 'index']);
+    Route::post('/admin/payment/store', [PaymentController::class, 'store']);
+    Route::put('/admin/payment/update/{id}', [PaymentController::class, 'update']);
+    Route::delete('/admin/payment/delete/{id}', [PaymentController::class, 'destroy']);
 
-//admin Maintenance
-Route::get('/admin/maintenance', [MaintenanceController::class, 'index']);
-Route::post('/admin/maintenance/store', [MaintenanceController::class, 'store']);
-Route::put('/admin/maintenance/update/{id}', [MaintenanceController::class, 'update']);
-Route::delete('/admin/maintenance/delete/{id}', [MaintenanceController::class, 'destroy']);
+    //admin Driver
+    Route::get('/admin/drivers', [DriverController::class, 'index']);
+    Route::post('/admin/drivers/store', [DriverController::class, 'store']);
+    Route::put('/admin/drivers/update/{id}', [DriverController::class, 'update']);
+    Route::delete('/admin/drivers/delete/{id}', [DriverController::class, 'destroy']);
 
-//Admin Laporan
-Route::get('/admin/laporan', [LaporanController::class, 'index']);
+    //admin Maintenance
+    Route::get('/admin/maintenance', [MaintenanceController::class, 'index']);
+    Route::post('/admin/maintenance/store', [MaintenanceController::class, 'store']);
+    Route::put('/admin/maintenance/update/{id}', [MaintenanceController::class, 'update']);
+    Route::delete('/admin/maintenance/delete/{id}', [MaintenanceController::class, 'destroy']);
 
-//Customer Dashboard
-Route::get('/customer',[LandingpageController::class, 'customer']);
+    //Admin Laporan
+    Route::get('/admin/laporan', [LaporanController::class, 'index']);
+});
 
-//customer alamat
-Route::get('/customer/alamat', [CustomerController::class, 'customer']);
-Route::post('/customer/alamat/store', [CustomerController::class, 'store']);
-Route::put('/customer/alamat/update/{id}', [CustomerController::class, 'update']);
-Route::delete('/customer/alamat/delete/{id}', [CustomerController::class, 'destroy']);
+//customer
+Route::middleware(['auth', 'role:customer'])->group(function () {
+    //Customer Dashboard
+    Route::get('/customer', [LandingpageController::class, 'customer']);
 
-//Customer vehicle
-Route::get('/customer/vehicle', [VehicleController::class, 'customer']);
+    //customer alamat
+    Route::get('/customer/alamat', [CustomerController::class, 'customer']);
+    Route::post('/customer/alamat/store', [CustomerController::class, 'store']);
+    Route::put('/customer/alamat/update/{id}', [CustomerController::class, 'update']);
+    Route::delete('/customer/alamat/delete/{id}', [CustomerController::class, 'destroy']);
 
-//customer rentals
-Route::get('/customer/rentals', [RentalsController::class, 'customer']);
-Route::post('/customer/rentals/store', [RentalsController::class, 'store']);
-Route::put('/customer/rentals/update/{id}', [RentalsController::class, 'updatecust']);
-Route::delete('/customer/rentals/delete/{id}', [RentalsController::class, 'destroy']);
-Route::post('/customer/rentals/return/{id}', [RentalsController::class, 'returnCar']);
+    //Customer vehicle
+    Route::get('/customer/vehicle', [VehicleController::class, 'customer']);
 
-//customer return
-Route::get('/customer/returns', [ReturnsController::class, 'customer']);
+    //customer rentals
+    Route::get('/customer/rentals', [RentalsController::class, 'customer']);
+    Route::post('/customer/rentals/store', [RentalsController::class, 'store']);
+    Route::put('/customer/rentals/update/{id}', [RentalsController::class, 'updatecust']);
+    Route::delete('/customer/rentals/delete/{id}', [RentalsController::class, 'destroy']);
+    Route::post('/customer/rentals/return/{id}', [RentalsController::class, 'returnCar']);
 
-//customer Maintenance
-Route::get('/customer/maintenance', [MaintenanceController::class, 'customer']);
+    //customer return
+    Route::get('/customer/returns', [ReturnsController::class, 'customer']);
 
-//customer Driver
-Route::get('/customer/drivers', [DriverController::class, 'customer']);
+    //customer Maintenance
+    Route::get('/customer/maintenance', [MaintenanceController::class, 'customer']);
 
-//customer payment
-Route::get('/customer/payments', [PaymentController::class, 'customer']);
-Route::post('/customer/payment/store', [PaymentController::class, 'store']);
-Route::put('/customer/payment/update/{id}', [PaymentController::class, 'updatecust']);
-Route::delete('/customer/payment/delete/{id}', [PaymentController::class, 'destroy']);
+    //customer Driver
+    Route::get('/customer/drivers', [DriverController::class, 'customer']);
+
+    //customer payment
+    Route::get('/customer/payments', [PaymentController::class, 'customer']);
+    Route::post('/customer/payment/store', [PaymentController::class, 'store']);
+    Route::put('/customer/payment/update/{id}', [PaymentController::class, 'updatecust']);
+    Route::delete('/customer/payment/delete/{id}', [PaymentController::class, 'destroy']);
+});
+
 
 Route::get('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/login', [AuthController::class, 'authenticate']);

@@ -204,33 +204,136 @@
                                         <td>{{ $driv->name }}</td>
                                         <td>{{ $driv->phone }}</td>
                                         <td>{{ $driv->license_number }}</td>
-                                        <td>
-                                            @if ($driv->status == 'available')
-                                                <span class="badge bg-success">Available</span>
-                                            @elseif ($driv->status == 'busy')
-                                                <span class="badge bg-danger">Busy</span>
-                                            @else
-                                                <span class="badge bg-secondary">{{ ucfirst($driv->status) }}</span>
-                                            @endif
-                                        </td>
+                                        <td>{{ $driv->status }}</td>
                                         <td>
                                             <button class="btn btn-warning btn-sm" data-bs-toggle="modal"
                                                 data-bs-target="#editDriverModal{{ $driv->id }}">
                                                 Edit
                                             </button>
-
-                                            <form action="/admin/drivers/delete/{{ $driv->id }}" method="POST"
-                                                class="d-inline">
-
-                                                @csrf
-                                                @method('DELETE')
-
-                                                <button type="submit" class="btn btn-danger btn-sm">
-                                                    Hapus
-                                                </button>
-                                            </form>
                                         </td>
                                     </tr>
+
+                                    <div class="modal fade" id="editDriverModal{{ $driv->id }}" tabindex="-1">
+
+                                        <div class="modal-dialog modal-lg modal-dialog-centered">
+
+                                            <div class="modal-content border-0 rounded-4 shadow">
+
+
+                                                <div class="modal-header bg-dark text-white">
+
+                                                    <h5 class="modal-title fw-bold">
+                                                        Edit Driver
+                                                    </h5>
+
+                                                    <button type="button" class="btn-close btn-close-white"
+                                                        data-bs-dismiss="modal">
+                                                    </button>
+
+                                                </div>
+
+
+                                                <div class="modal-body p-4">
+
+
+                                                    <form action="/admin/drivers/update/{{ $driv->id }}"
+                                                        method="POST">
+
+                                                        @csrf
+                                                        @method('PUT')
+
+
+                                                        <div class="mb-3">
+
+                                                            <label class="form-label fw-semibold">
+                                                                Name
+                                                            </label>
+
+                                                            <input type="text" name="name" class="form-control"
+                                                                value="{{ $driv->name }}" required>
+
+                                                        </div>
+
+
+                                                        <div class="mb-3">
+
+                                                            <label class="form-label fw-semibold">
+                                                                Phone
+                                                            </label>
+
+                                                            <input type="number" name="phone" class="form-control"
+                                                                value="{{ $driv->phone }}" required>
+
+                                                        </div>
+
+
+                                                        <div class="mb-3">
+
+                                                            <label class="form-label fw-semibold">
+                                                                License Number
+                                                            </label>
+
+                                                            <input type="text" name="license_number"
+                                                                class="form-control"
+                                                                value="{{ $driv->license_number }}" required>
+
+                                                        </div>
+
+
+                                                        <div class="mb-3">
+
+                                                            <label class="form-label fw-semibold">
+                                                                Status
+                                                            </label>
+
+
+                                                            <select name="status" class="form-select" required>
+
+
+                                                                <option value="available"
+                                                                    {{ $driv->status == 'available' ? 'selected' : '' }}>
+                                                                    Available
+                                                                </option>
+
+
+                                                                <option value="busy"
+                                                                    {{ $driv->status == 'busy' ? 'selected' : '' }}>
+                                                                    Busy
+                                                                </option>
+
+
+                                                            </select>
+
+                                                        </div>
+
+
+
+                                                        <div class="text-end">
+
+                                                            <button type="button" class="btn btn-secondary"
+                                                                data-bs-dismiss="modal">
+                                                                Batal
+                                                            </button>
+
+
+                                                            <button type="submit" class="btn btn-warning">
+                                                                Update
+                                                            </button>
+
+
+                                                        </div>
+
+
+                                                    </form>
+
+
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
                                 @endforeach
                             </tbody>
                         </table>
@@ -332,123 +435,6 @@
 
             </div>
         </div>
-    </div>
-
-
-    <div class="modal fade" id="editDriverModal{{ $driv->id }}" tabindex="-1">
-
-        <div class="modal-dialog modal-lg modal-dialog-centered">
-
-            <div class="modal-content border-0 rounded-4 shadow">
-
-
-                <div class="modal-header bg-dark text-white">
-
-                    <h5 class="modal-title fw-bold">
-                        Edit Driver
-                    </h5>
-
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal">
-                    </button>
-
-                </div>
-
-
-                <div class="modal-body p-4">
-
-
-                    <form action="/admin/drivers/update/{{ $driv->id }}" method="POST">
-
-                        @csrf
-                        @method('PUT')
-
-
-                        <div class="mb-3">
-
-                            <label class="form-label fw-semibold">
-                                Name
-                            </label>
-
-                            <input type="text" name="name" class="form-control" value="{{ $driv->name }}"
-                                required>
-
-                        </div>
-
-
-                        <div class="mb-3">
-
-                            <label class="form-label fw-semibold">
-                                Phone
-                            </label>
-
-                            <input type="number" name="phone" class="form-control" value="{{ $driv->phone }}"
-                                required>
-
-                        </div>
-
-
-                        <div class="mb-3">
-
-                            <label class="form-label fw-semibold">
-                                License Number
-                            </label>
-
-                            <input type="text" name="license_number" class="form-control"
-                                value="{{ $driv->license_number }}" required>
-
-                        </div>
-
-
-                        <div class="mb-3">
-
-                            <label class="form-label fw-semibold">
-                                Status
-                            </label>
-
-
-                            <select name="status" class="form-select" required>
-
-
-                                <option value="available" {{ $driv->status == 'available' ? 'selected' : '' }}>
-                                    Available
-                                </option>
-
-
-                                <option value="busy" {{ $driv->status == 'busy' ? 'selected' : '' }}>
-                                    Busy
-                                </option>
-
-
-                            </select>
-
-                        </div>
-
-
-
-                        <div class="text-end">
-
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                                Batal
-                            </button>
-
-
-                            <button type="submit" class="btn btn-warning">
-                                Update
-                            </button>
-
-
-                        </div>
-
-
-                    </form>
-
-
-                </div>
-
-            </div>
-
-        </div>
-
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
